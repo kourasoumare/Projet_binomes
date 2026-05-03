@@ -182,11 +182,19 @@ console.log("D");
 
 <h3>Piège classique : bloquer la boucle</h3>
 <pre><code>const start = Date.now();
+
+Promise.resolve().then(() => console.log("Promise exécutée"));
+
 while (Date.now() - start &lt; 3000) {
   // boucle CPU bloquante
 }
-console.log("Fin");</code></pre>
-<p>Pendant cette boucle, Node ne peut pas traiter les autres requêtes : le serveur devient lent ou indisponible.</p>
+
+console.log("Fin sync");
+
+// Sortie (après ~3s) :
+// Fin sync
+// Promise exécutée</code></pre>
+<p>Même une Promise est retardée tant que la boucle CPU tourne : le thread principal est bloqué, donc l'event loop ne peut pas traiter les microtasks.</p>
 
 <div class="callout">
 <p><strong>Bonnes pratiques immédiates</strong></p>
