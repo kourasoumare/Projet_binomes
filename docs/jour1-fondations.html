@@ -329,6 +329,30 @@ node src/cli.js hello Alice
 node src/cli.js test</code></pre>
 <p>Ce pattern (lire <code>process.argv</code> → router la commande → afficher le résultat) est exactement celui de Campus Quest.</p>
 
+<h3>Lire et écrire un fichier JSON (indispensable)</h3>
+<p>Dans Campus Quest, tout passe par <code>store.js</code>. Voici la base minimale attendue :</p>
+<pre><code>import { readFile, writeFile } from "node:fs/promises";
+
+export async function loadJson(path) {
+  try {
+    const raw = await readFile(path, "utf8");
+    return JSON.parse(raw);
+  } catch (err) {
+    if (err.code === "ENOENT") return [];
+    throw err;
+  }
+}
+
+export async function saveJson(path, data) {
+  const pretty = JSON.stringify(data, null, 2);
+  await writeFile(path, `${pretty}\n`, "utf8");
+}</code></pre>
+<p>Exemple d'utilisation dans une commande :</p>
+<pre><code>const players = await loadJson("./data/players.json");
+players.push({ id: "p-alice", pseudo: "Alice", xp: 0, level: 1 });
+await saveJson("./data/players.json", players);</code></pre>
+<p><strong>À retenir</strong> : on lit d'abord, on modifie en mémoire, puis on réécrit le fichier.</p>
+
 <h2>7. Exercices progressifs</h2>
 <h3>Niveau 1 - Mise en route technique</h3>
 <table>

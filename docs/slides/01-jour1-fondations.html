@@ -153,6 +153,21 @@ else { console.log(`Commande inconnue: ${command}`); process.exitCode = 1; }</co
     </section>
 
     <section>
+      <h2>Lire / écrire un JSON</h2>
+      <pre><code class="language-js">import { readFile, writeFile } from "node:fs/promises";
+
+async function loadJson(path) {
+  try { return JSON.parse(await readFile(path, "utf8")); }
+  catch (err) { if (err.code === "ENOENT") return []; throw err; }
+}
+
+async function saveJson(path, data) {
+  await writeFile(path, JSON.stringify(data, null, 2) + "\n", "utf8");
+}</code></pre>
+      <p class="small">Pattern: lire → modifier en mémoire → réécrire le fichier.</p>
+    </section>
+
+    <section>
       <h2>Exercices progressifs</h2>
       <div class="grid">
         <div class="card"><strong>Niveau 1</strong><p class="small">Store JSON + helpers</p></div>
