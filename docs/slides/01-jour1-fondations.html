@@ -121,7 +121,24 @@ console.log(avg.toFixed(2));</code></pre>
           <li>Afficher stats + classement</li>
         </ol>
       </div>
+      <div class="card" style="margin-top:12px">
+        <p><strong>Une quête = une mission</strong> avec <code>id</code>, <code>title</code>, <code>difficulty</code>, <code>xp</code>.</p>
+        <p class="small">Exemple : <code>q-intro-io</code> "Lire un fichier JSON" vaut 20 XP.</p>
+      </div>
       <p class="small">Livrable J1 : une CLI exécutable de bout en bout sans modifier le code pendant la démo.</p>
+    </section>
+
+    <section>
+      <h2>Qui fait quoi ? (flux réel)</h2>
+      <div class="card">
+        <p><code>node src/cli.js create-player Alice</code></p>
+        <ol>
+          <li><code>cli.js</code> lit la commande</li>
+          <li><code>game-service.js</code> applique les règles</li>
+          <li><code>store.js</code> lit/écrit les JSON</li>
+          <li><code>cli.js</code> affiche le résultat</li>
+        </ol>
+      </div>
     </section>
 
     <section>
@@ -132,6 +149,7 @@ if (command === "hello") console.log(`Bonjour ${name ?? "inconnu"}`);
 else if (command === "help" || !command) console.log("Usage: node src/cli.js hello &lt;prenom&gt;");
 else { console.log(`Commande inconnue: ${command}`); process.exitCode = 1; }</code></pre>
       <p class="small">Idée clé : lire les arguments, choisir la commande, afficher un résultat.</p>
+      <p class="small">Les 2 premières cases de <code>process.argv</code> sont ignorées (node + chemin du script).</p>
     </section>
 
     <section>

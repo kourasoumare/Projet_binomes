@@ -228,6 +228,13 @@ async function readJsonSafe(path) {
 <h2>6. Structurer Campus Quest (CLI)</h2>
 <h3>C'est quoi Campus Quest ?</h3>
 <p>Campus Quest est un mini-jeu en ligne de commande. Vous devez coder une CLI qui manipule deux fichiers JSON (<code>players.json</code> et <code>quests.json</code>) pour simuler la progression d'un joueur.</p>
+<p><strong>Principe</strong> : un joueur accepte des quêtes, les valide, gagne de l'XP, puis monte de niveau.</p>
+<p><strong>Qu'est-ce qu'une quête ?</strong> Une quête est une mission avec un identifiant, un intitulé et une récompense d'XP. Exemple: <code>q-intro-io</code> = "Lire un fichier JSON" = 20 XP.</p>
+<p><strong>Différence importante</strong> :</p>
+<ul>
+<li><code>quests.json</code> = catalogue global des quêtes disponibles (source de vérité).</li>
+<li><code>players.json</code> = progression de chaque joueur (quêtes acceptées/terminées, XP, niveau).</li>
+</ul>
 <div class="callout">
 <p><strong>Ce que vous devez faire concrètement</strong></p>
 <ol>
@@ -239,6 +246,25 @@ async function readJsonSafe(path) {
 </div>
 <p><strong>Entrée</strong> : commandes terminal (ex: <code>node src/cli.js create-player Alice</code>).<br>
 <strong>Sortie</strong> : messages CLI lisibles + données persistées correctement dans les JSON.</p>
+<h3>Exemple de données attendues</h3>
+<pre><code>// quests.json
+[
+  { "id": "q-intro-io", "title": "Lire un fichier JSON", "difficulty": "easy", "xp": 20 },
+  { "id": "q-api-1", "title": "Créer une route GET /players", "difficulty": "medium", "xp": 40 }
+]
+
+// players.json
+[
+  {
+    "id": "p-alice",
+    "pseudo": "Alice",
+    "xp": 20,
+    "level": 1,
+    "acceptedQuests": ["q-intro-io"],
+    "completedQuests": ["q-intro-io"]
+  }
+]</code></pre>
+<p>Lecture du scénario: Alice accepte la quête <code>q-intro-io</code>, la termine, passe à 20 XP, et sa progression est enregistrée dans <code>players.json</code>.</p>
 
 <h3>Arborescence cible</h3>
 <pre><code>campus-quest/
@@ -250,6 +276,25 @@ async function readJsonSafe(path) {
   data/
     players.json
     quests.json</code></pre>
+
+<h3>Rôle précis de chaque fichier</h3>
+<ul>
+<li><code>package.json</code> : configuration du projet (type ESM, scripts npm, dépendances).</li>
+<li><code>src/cli.js</code> : point d'entrée terminal; lit <code>process.argv</code>, route la commande, affiche le résultat.</li>
+<li><code>src/game-service.js</code> : logique métier (création joueur, attribution/validation de quête, calcul XP/niveau).</li>
+<li><code>src/store.js</code> : accès aux fichiers JSON (lecture/écriture, gestion d'erreurs I/O).</li>
+<li><code>data/quests.json</code> : catalogue des quêtes disponibles (id, titre, difficulté, XP).</li>
+<li><code>data/players.json</code> : état des joueurs (pseudo, XP, niveau, quêtes acceptées/terminées).</li>
+</ul>
+<p><strong>Règle d'architecture</strong> : <code>cli.js</code> ne contient pas les règles de jeu; il appelle <code>game-service.js</code>, qui lui-même passe par <code>store.js</code> pour persister les données.</p>
+<p><strong>Version concrète (exemple)</strong> pour <code>node src/cli.js create-player Alice</code> :</p>
+<ol>
+<li><code>cli.js</code> lit la commande <code>create-player</code> et le pseudo <code>Alice</code>.</li>
+<li><code>cli.js</code> appelle <code>createPlayer("Alice")</code> dans <code>game-service.js</code>.</li>
+<li><code>game-service.js</code> vérifie les règles (pseudo valide, unicité, etc.).</li>
+<li><code>store.js</code> lit puis écrit <code>players.json</code>.</li>
+<li><code>cli.js</code> affiche "Joueur créé".</li>
+</ol>
 
 <h3>Fonctions à implémenter</h3>
 <ul>
@@ -271,6 +316,13 @@ if (command === "hello") {
   console.log(`Commande inconnue: ${command}`);
   process.exitCode = 1;
 }</code></pre>
+<p><strong>Pourquoi <code>[, , command, name]</code> ?</strong> Les deux premières valeurs de <code>process.argv</code> ne sont pas des arguments métier :</p>
+<ul>
+<li><code>process.argv[0]</code> = chemin vers l'exécutable Node.</li>
+<li><code>process.argv[1]</code> = chemin vers le fichier exécuté (<code>src/cli.js</code>).</li>
+<li><code>process.argv[2]</code> = votre première vraie donnée utilisateur (ici <code>command</code>).</li>
+<li><code>process.argv[3]</code> = la suivante (ici <code>name</code>).</li>
+</ul>
 <p>Test rapide :</p>
 <pre><code>node src/cli.js help
 node src/cli.js hello Alice
