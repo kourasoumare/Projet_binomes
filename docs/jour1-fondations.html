@@ -159,6 +159,21 @@ console.log("D");
 // C promise
 // B timeout</code></pre>
 <p><strong>Pourquoi ?</strong> Le synchrone passe d'abord (<code>A</code>, <code>D</code>), puis les microtasks (Promise), puis les <span class="term" tabindex="0" data-def="Tâches planifiées ensuite, par exemple setTimeout et setInterval.">macrotasks</span> (timeout).</p>
+<h3>Liste claire : microtasks vs macrotasks</h3>
+<p><strong>Microtasks (prioritaires)</strong> :</p>
+<ul>
+<li><code>Promise.then/catch/finally</code></li>
+<li><code>await</code> (la suite après résolution de la Promise)</li>
+<li><code>queueMicrotask(...)</code></li>
+</ul>
+<p><strong>Macrotasks (tour suivant de boucle)</strong> :</p>
+<ul>
+<li><code>setTimeout(...)</code> même avec <code>0</code></li>
+<li><code>setInterval(...)</code></li>
+<li>callbacks I/O (fichiers, réseau)</li>
+<li><code>setImmediate(...)</code> (Node.js)</li>
+</ul>
+<p><strong>Note Node.js</strong> : <code>process.nextTick(...)</code> est encore prioritaire (file spéciale) et passe avant les microtasks Promise.</p>
 
 <h3>Piège classique : bloquer la boucle</h3>
 <pre><code>const start = Date.now();

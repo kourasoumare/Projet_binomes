@@ -79,6 +79,15 @@ npm pkg set scripts.dev=\"node --watch src/index.js\"</code></pre>
     </section>
 
     <section>
+      <h2>Microtask vs Macrotask</h2>
+      <div class="card">
+        <p><strong>Microtasks</strong> : Promise.then/catch/finally, await, queueMicrotask</p>
+        <p><strong>Macrotasks</strong> : setTimeout (même 0), setInterval, I/O callbacks, setImmediate</p>
+        <p class="small">Node: <code>process.nextTick</code> est une file spéciale encore plus prioritaire.</p>
+      </div>
+    </section>
+
+    <section>
       <h2>Exemple 1 - Lecture JSON</h2>
       <pre><code class="language-js">import { readFile } from "node:fs/promises";
 
