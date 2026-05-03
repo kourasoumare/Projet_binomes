@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js J3 - Atelier binôme</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css">
+  <style>
+    .reveal{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .reveal h1,.reveal h2{color:#0b63b7}
+    .chip{display:inline-block;background:#e8f4ff;color:#0b63b7;border-radius:999px;padding:4px 10px;font-size:.5em;font-weight:700}
+    .card{background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:14px}
+    .small{font-size:.65em;color:#475569}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    table{width:100%;font-size:.58em;border-collapse:collapse}
+    th,td{border:1px solid #dbe4ee;padding:8px}
+    th{background:#eef5ff}
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <span class="chip">Node.js Niveau I</span>
+      <h1>Jour 3 - Atelier synthèse binôme</h1>
+      <p>Projet noté à partir d'une expression des besoins</p>
+    </section>
+
+    <section>
+      <h2>Contexte projet</h2>
+      <div class="card">
+        <p><strong>Challenge Arena</strong> : mini-API pour défis étudiants et classement public.</p>
+        <p class="small">Objectif pédagogique : livrer un MVP complet, testable, démontrable.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>MVP attendu</h2>
+      <div class="card">
+        <ol>
+          <li>Créer un participant</li>
+          <li>Créer un défi</li>
+          <li>Valider un défi pour un participant</li>
+          <li>Afficher le classement</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Répartition binôme</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>Participant A</strong>
+          <p class="small">participants + classement</p>
+        </div>
+        <div class="card">
+          <strong>Participant B</strong>
+          <p class="small">défis + attribution des points</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <strong>En commun</strong>
+        <p class="small">gestion d'erreurs, README, recette, démonstration.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Mini planning</h2>
+      <table>
+        <thead><tr><th>Étape</th><th>Livrable</th></tr></thead>
+        <tbody>
+          <tr><td>Cadrage</td><td>backlog MVP + architecture</td></tr>
+          <tr><td>Implémentation</td><td>endpoints cœur opérationnels</td></tr>
+          <tr><td>Validation</td><td>codes HTTP + erreurs homogènes</td></tr>
+          <tr><td>Recette</td><td>scénario de test rejouable</td></tr>
+          <tr><td>Finalisation</td><td>README + démo</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Grille de notation (/20)</h2>
+      <table>
+        <thead><tr><th>Critère</th><th>Points</th></tr></thead>
+        <tbody>
+          <tr><td>Respect du besoin</td><td>8</td></tr>
+          <tr><td>Qualité technique</td><td>4</td></tr>
+          <tr><td>Validation & erreurs</td><td>3</td></tr>
+          <tr><td>Démonstration</td><td>3</td></tr>
+          <tr><td>README / exécution</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Checklist de rendu</h2>
+      <div class="card">
+        <ul>
+          <li>Endpoints MVP fonctionnels</li>
+          <li>Format d'erreur unifié</li>
+          <li>Collection de tests rejouable</li>
+          <li>README clair</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>Reveal.initialize({hash:true,slideNumber:true});</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+[
+  { "id": "q1", "title": "Installer Node.js", "difficulty": "easy", "xp": 10 },
+  { "id": "q2", "title": "Lire un fichier JSON", "difficulty": "easy", "xp": 15 },
+  { "id": "q3", "title": "Calculer une moyenne CSV", "difficulty": "medium", "xp": 25 },
+  { "id": "q4", "title": "Créer une CLI robuste", "difficulty": "hard", "xp": 40 }
+]

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 2 - API REST Express</title>
+<style>
+@page{margin:20mm 18mm;size:A4}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#2d3436;line-height:1.7;max-width:820px;margin:0 auto;padding:24px 22px 56px}
+h1{font-size:1.6rem;color:#0984e3;border-bottom:2px solid #74b9ff;padding-bottom:8px;margin:24px 0 16px}
+h2{font-size:1.25rem;color:#2d3436;margin:26px 0 12px;padding-bottom:4px;border-bottom:1px solid #dfe6e9}
+h3{font-size:1.05rem;color:#636e72;margin:18px 0 8px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+code{background:#f1f2f6;padding:1px 5px;border-radius:3px;font-family:"SF Mono",Monaco,Consolas,"Liberation Mono",monospace;font-size:.88em}
+pre{background:#2d3436;color:#dfe6e9;padding:14px 18px;border-radius:8px;overflow-x:auto;font-size:.83rem;line-height:1.5;margin:10px 0}
+pre code{background:none;padding:0;color:inherit}
+.header-bar{background:#0984e3;color:#fff;padding:12px 18px;border-radius:8px;margin-bottom:20px;font-size:.85rem}
+.header-bar strong{color:#fff}
+.top-links{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.top-links a{text-decoration:none;background:#f1f2f6;color:#2d3436;padding:8px 10px;border-radius:8px;font-size:.88rem}
+.top-links a:hover{background:#e5e7eb}
+.check{background:#f8f9fa;border-left:4px solid #74b9ff;padding:10px 12px;margin:10px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #dfe6e9;padding:8px 10px;text-align:left;font-size:.9rem}
+th{background:#f1f2f6}
+.callout{background:#f8f9fa;border-left:4px solid #0984e3;padding:10px 12px;margin:10px 0}
+</style>
+</head>
+<body>
+<div class="header-bar"><strong>Node.js Niveau I - Jour 2</strong></div>
+<div class="top-links">
+  <a href="index.html">← Accueil cours</a>
+  <a href="jour1-fondations.html">← Jour 1</a>
+  <a href="jour3-qualite-livraison.html">Aller au Jour 3 →</a>
+</div>
+<h1>Jour 2 - API REST Campus Quest avec Express</h1>
+<p><strong>Objectif du jour</strong> : transformer la version CLI en API REST propre et testable.</p>
+<p><strong>Livrable fil rouge</strong> : API Campus Quest avec routes joueurs, quêtes et classement.</p>
+
+<h2>1. Rappels HTTP essentiels</h2>
+<h3>Méthodes et usages</h3>
+<ul>
+<li><code>GET</code> : lire des données</li>
+<li><code>POST</code> : créer une ressource</li>
+<li><code>PATCH</code> : modifier partiellement</li>
+<li><code>DELETE</code> : supprimer</li>
+</ul>
+
+<h3>Codes de réponse à utiliser</h3>
+<ul>
+<li><code>200</code> : succès lecture/modification</li>
+<li><code>201</code> : ressource créée</li>
+<li><code>400</code> : données invalides</li>
+<li><code>404</code> : ressource non trouvée</li>
+<li><code>500</code> : erreur serveur</li>
+</ul>
+
+<h2>2. Serveur Node natif (sans framework)</h2>
+<h3>Exemple simple - endpoint health</h3>
+<pre><code>import http from "node:http";
+
+const server = http.createServer((req, res) => {
+  if (req.method === "GET" && req.url === "/health") {
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end(JSON.stringify({ status: "ok" }));
+    return;
+  }
+
+  res.writeHead(404, { "content-type": "application/json" });
+  res.end(JSON.stringify({ error: "not found" }));
+});
+
+server.listen(3000);</code></pre>
+
+<h3>Exemple technique - routing + body JSON</h3>
+<pre><code>import http from "node:http";
+
+const players = [];
+
+const server = http.createServer((req, res) => {
+  if (req.method === "GET" && req.url === "/players") {
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end(JSON.stringify(players));
+    return;
+  }
+
+  if (req.method === "POST" && req.url === "/players") {
+    let body = "";
+    req.on("data", chunk => { body += chunk; });
+    req.on("end", () => {
+      try {
+        const data = JSON.parse(body || "{}");
+        if (!data.pseudo || data.pseudo.trim().length < 3) {
+          res.writeHead(400, { "content-type": "application/json" });
+          res.end(JSON.stringify({ error: "pseudo invalide" }));
+          return;
+        }
+        players.push({ id: players.length + 1, pseudo: data.pseudo.trim() });
+        res.writeHead(201, { "content-type": "application/json" });
+        res.end(JSON.stringify(players[players.length - 1]));
+      } catch {
+        res.writeHead(400, { "content-type": "application/json" });
+        res.end(JSON.stringify({ error: "json invalide" }));
+      }
+    });
+    return;
+  }
+
+  res.writeHead(404, { "content-type": "application/json" });
+  res.end(JSON.stringify({ error: "not found" }));
+});
+
+server.listen(3000);</code></pre>
+
+<div class="callout">
+<p><strong>Pourquoi montrer ça avant Express ?</strong> Pour comprendre ce qu'Express simplifie : le routing, le parsing du body, la gestion des erreurs et la lisibilité globale.</p>
+</div>
+
+<h2>3. Passer à Express</h2>
+<h3>Étape 1 - Installation</h3>
+<pre><code>npm install express</code></pre>
+
+<h3>Étape 2 - Serveur minimal</h3>
+<pre><code>import express from "express";
+
+const app = express();
+app.use(express.json());
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+app.listen(3000);</code></pre>
+
+<h3>Étape 3 - Structure recommandée</h3>
+<pre><code>src/
+  app.js
+  routes/
+    players.routes.js
+    quests.routes.js
+  controllers/
+  services/
+  repositories/
+  middlewares/</code></pre>
+
+<h2>4. Exemples</h2>
+<h3>Exemple 1 - Route POST avec validation</h3>
+<pre><code>app.post("/players", (req, res) => {
+  const pseudo = req.body?.pseudo?.trim();
+  if (!pseudo || pseudo.length < 3) {
+    return res.status(400).json({ code: "VALIDATION_ERROR", message: "pseudo invalide" });
+  }
+  return res.status(201).json({ id: 1, pseudo });
+});</code></pre>
+
+<h3>Exemple 2 - Route métier avec service</h3>
+<pre><code>app.post("/players/:id/quests/:questId/complete", async (req, res, next) => {
+  try {
+    const result = await questService.complete(req.params.id, req.params.questId);
+    return res.status(200).json(result);
+  } catch (err) {
+    return next(err);
+  }
+});</code></pre>
+
+<h3>Exemple 3 - Middleware d'erreur unifié</h3>
+<pre><code>app.use((err, _req, res, _next) => {
+  const status = err.statusCode || 500;
+  res.status(status).json({
+    code: err.code || "INTERNAL_ERROR",
+    message: err.message || "erreur interne",
+    details: err.details || []
+  });
+});</code></pre>
+
+<h2>5. Ateliers et exercices pratiques</h2>
+<h3>Atelier 1 - Contrat API</h3>
+<p>Définir précisément 5 endpoints :</p>
+<ol>
+<li>Méthode HTTP</li>
+<li>URL</li>
+<li>Payload d'entrée (valide + invalide)</li>
+<li>Réponse de succès</li>
+<li>Réponse d'erreur</li>
+</ol>
+
+<h3>Atelier 2 - Implémentation guidée</h3>
+<p>Implémenter les routes suivantes avec validations minimales :</p>
+<ul>
+<li><code>POST /players</code></li>
+<li><code>POST /quests</code></li>
+<li><code>POST /players/:id/quests/:questId/complete</code></li>
+</ul>
+<p><strong>Contraintes</strong> : statut correct + message explicite + refus doublon de validation.</p>
+
+<h3>Atelier 3 - Tests manuels structurés</h3>
+<table>
+<thead><tr><th>Test</th><th>Attendu</th></tr></thead>
+<tbody>
+<tr><td>Créer un joueur valide</td><td><code>201</code> + JSON joueur</td></tr>
+<tr><td>Créer un joueur invalide</td><td><code>400</code> + message erreur</td></tr>
+<tr><td>Valider une quête existante</td><td><code>200</code> + XP mis à jour</td></tr>
+<tr><td>Valider une quête inexistante</td><td><code>404</code></td></tr>
+<tr><td>Lire le leaderboard</td><td><code>200</code> + tableau trié</td></tr>
+</tbody>
+</table>
+<p><strong>Extension obligatoire</strong> : ajouter 5 tests d'erreur (payload vide, type invalide, id invalide, doublon, route inconnue).</p>
+
+<h3>Atelier 4 - Refactor architecture</h3>
+<ol>
+<li>Déplacer la logique métier hors des routes</li>
+<li>Créer un service <code>leaderboard.service.js</code></li>
+<li>Centraliser le format d'erreur</li>
+</ol>
+<p><strong>Critère qualité</strong> : aucune règle métier dans les fichiers de routes.</p>
+
+<h3>Atelier 5 - Sécurité et robustesse</h3>
+<ol>
+<li>Limiter le nombre de requêtes</li>
+<li>Ajouter <code>helmet</code></li>
+<li>Configurer un CORS explicite</li>
+<li>Masquer les traces internes en réponse</li>
+</ol>
+
+<h3>Atelier 6 - Qualité d'exploitation</h3>
+<ol>
+<li>Créer un endpoint <code>/health</code> détaillé (status, uptime, version)</li>
+<li>Ajouter des logs structurés (méthode, route, status, durée)</li>
+<li>Créer une collection API prête pour la démo</li>
+</ol>
+
+<h3>Exercice bonus</h3>
+<p>Ajouter un endpoint <code>GET /players/:id/history</code> qui renvoie les quêtes réalisées par un joueur.</p>
+<p><strong>Hard mode</strong> : ajouter <code>GET /players/:id/progression</code> (xp, niveau, progression, 3 dernières quêtes).</p>
+
+<h2>6. Mini-projet de fin de Jour 2</h2>
+<p>Livrer une API jouable en équipe avec ce scénario :</p>
+<ol>
+<li>Créer 3 joueurs</li>
+<li>Créer 4 quêtes</li>
+<li>Faire compléter 2 quêtes à chaque joueur</li>
+<li>Afficher un leaderboard final cohérent</li>
+</ol>
+<p><strong>Critères de réussite</strong> :</p>
+<ul>
+<li>Scénario rejouable depuis collection Postman/Insomnia</li>
+<li>Au moins 12 requêtes documentées (succès + erreurs)</li>
+<li>Architecture routes/controllers/services respectée</li>
+<li>Format d'erreur unifié</li>
+</ul>
+
+<h3>Évaluation conseillée du Jour 2 (/20)</h3>
+<table>
+<thead><tr><th>Critère</th><th>Points</th></tr></thead>
+<tbody>
+<tr><td>Conformité fonctionnelle des endpoints</td><td>6</td></tr>
+<tr><td>Qualité des validations et erreurs</td><td>5</td></tr>
+<tr><td>Architecture et lisibilité du code</td><td>4</td></tr>
+<tr><td>Qualité des tests manuels et démonstration</td><td>5</td></tr>
+</tbody>
+</table>
+
+<h2>7. Checklist de fin de journée</h2>
+<div class="check">
+<ul>
+<li>API disponible en local.</li>
+<li>Routes principales fonctionnelles.</li>
+<li>Validation de base active.</li>
+<li>Classement correctement calculé.</li>
+<li>Collection de tests rejouable sans intervention manuelle.</li>
+<li>Format d'erreur homogène sur toutes les routes.</li>
+</ul>
+</div>
+
+<div class="top-links">
+  <a href="jour1-fondations.html">← Jour 1</a>
+  <a href="index.html">Accueil cours</a>
+  <a href="jour3-qualite-livraison.html">Jour 3 - Atelier synthèse →</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js J1 - Fondations</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css">
+  <style>
+    .reveal{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .reveal h1,.reveal h2{color:#0b63b7}
+    .chip{display:inline-block;background:#e8f4ff;color:#0b63b7;border-radius:999px;padding:4px 10px;font-size:.5em;font-weight:700}
+    .card{background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:14px}
+    .small{font-size:.65em;color:#475569}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .reveal pre{font-size:.56em;border-radius:10px}
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <span class="chip">Node.js Niveau I</span>
+      <h1>Jour 1 - Fondations</h1>
+      <p>Architecture, event loop, exemples, puis exercices</p>
+    </section>
+
+    <section>
+      <h2>Repères historiques</h2>
+      <div class="card">
+        <p><strong>2009</strong> : naissance de Node.js</p>
+        <p><strong>2010</strong> : npm accélère l'écosystème</p>
+        <p><strong>Aujourd'hui</strong> : LTS stable et usage massif</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Briques techniques</h2>
+      <div class="grid-3">
+        <div class="card"><strong>V8</strong><p class="small">moteur JS</p></div>
+        <div class="card"><strong>libuv</strong><p class="small">I/O + loop</p></div>
+        <div class="card"><strong>npm</strong><p class="small">packages + scripts</p></div>
+      </div>
+      <div class="grid" style="margin-top:12px">
+        <div class="card"><strong>APIs natives</strong><p class="small">fs, path, http...</p></div>
+        <div class="card"><strong>Modules</strong><p class="small">ESM / CommonJS</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Initialiser le projet</h2>
+      <pre><code>mkdir campus-quest
+cd campus-quest
+npm init -y
+npm pkg set type=module
+npm pkg set scripts.start=\"node src/index.js\"
+npm pkg set scripts.dev=\"node --watch src/index.js\"</code></pre>
+    </section>
+
+    <section>
+      <h2>package.json minimal</h2>
+      <pre><code class="language-json">{
+  "name": "campus-quest",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  }
+}</code></pre>
+      <p class="small">Le champ <code>type: "module"</code> permet d'utiliser <code>import</code>.</p>
+    </section>
+
+    <section>
+      <h2>Event loop</h2>
+      <img src="../cours-html/assets/event-loop-nodejs.svg" alt="event loop" style="max-height:450px;width:auto;border:1px solid #dbe4ee;border-radius:10px;background:#fff;">
+    </section>
+
+    <section>
+      <h2>Exemple 1 - Lecture JSON</h2>
+      <pre><code class="language-js">import { readFile } from "node:fs/promises";
+
+const raw = await readFile("./data/players.json", "utf8");
+const players = JSON.parse(raw);
+console.log(players.length);</code></pre>
+    </section>
+
+    <section>
+      <h2>Exemple 2 - Fichier + moyenne</h2>
+      <pre><code class="language-js">const csv = await readFile("./data/scores.csv", "utf8");
+const lines = csv.trim().split("\n").slice(1);
+const scores = lines.map(l => Number(l.split(";")[1]));
+const avg = scores.reduce((a,n)=>a+n,0) / scores.length;
+console.log(avg.toFixed(2));</code></pre>
+    </section>
+
+    <section>
+      <h2>Exemple 3 - Gestion d'erreur fichier</h2>
+      <pre><code class="language-js">async function readJsonSafe(path) {
+  try {
+    const raw = await readFile(path, "utf8");
+    return JSON.parse(raw);
+  } catch (err) {
+    if (err.code === "ENOENT") return [];
+    throw err;
+  }
+}</code></pre>
+    </section>
+
+    <section>
+      <h2>Exercices progressifs</h2>
+      <div class="grid">
+        <div class="card"><strong>Niveau 1</strong><p class="small">Store JSON + helpers</p></div>
+        <div class="card"><strong>Niveau 2</strong><p class="small">Logique métier XP/quêtes</p></div>
+      </div>
+      <div class="card" style="margin-top:12px"><strong>Niveau 3</strong><p class="small">Robustesse CLI + messages d'erreur</p></div>
+    </section>
+
+    <section>
+      <h2>Mini-projet J1</h2>
+      <div class="card">
+        <ol>
+          <li>Créer un joueur</li>
+          <li>Attribuer 2 quêtes</li>
+          <li>Valider une quête</li>
+          <li>Afficher profil + leaderboard</li>
+        </ol>
+      </div>
+    </section>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>Reveal.initialize({hash:true,slideNumber:true});</script>
+</body>
+</html>

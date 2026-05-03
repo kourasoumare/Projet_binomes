@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-label="Architecture du mini-projet Docker Node.js">
+  <defs>
+    <style>
+      .title{font:700 30px 'Segoe UI',Arial,sans-serif;fill:#0b63b7}
+      .label{font:600 18px 'Segoe UI',Arial,sans-serif;fill:#1f2937}
+      .text{font:500 15px 'Segoe UI',Arial,sans-serif;fill:#374151}
+      .box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2}
+      .accent{fill:#e8f4ff;stroke:#74b9ff;stroke-width:2}
+      .docker{fill:#dff6ff;stroke:#0ea5e9;stroke-width:2}
+      .node{fill:#ecfdf5;stroke:#22c55e;stroke-width:2}
+      .vol{fill:#fff7ed;stroke:#f59e0b;stroke-width:2}
+      .arrow{stroke:#0f172a;stroke-width:2.5;marker-end:url(#m)}
+    </style>
+    <marker id="m" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f172a"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="50" class="title">Architecture du mini-projet Node.js avec Docker Compose</text>
+
+  <rect x="40" y="90" width="310" height="560" rx="14" class="box"/>
+  <text x="60" y="130" class="label">Poste étudiant</text>
+  <text x="60" y="158" class="text">dossier docker-node-demo/</text>
+
+  <rect x="60" y="185" width="270" height="54" rx="10" class="accent"/>
+  <text x="78" y="218" class="text">Dockerfile + compose.yml</text>
+
+  <rect x="60" y="252" width="270" height="54" rx="10" class="accent"/>
+  <text x="78" y="285" class="text">package.json + server.js</text>
+
+  <rect x="60" y="319" width="270" height="54" rx="10" class="accent"/>
+  <text x="78" y="352" class="text">.dockerignore</text>
+
+  <rect x="60" y="386" width="270" height="118" rx="10" class="vol"/>
+  <text x="78" y="418" class="label" style="font-size:16px">Volume monté</text>
+  <text x="78" y="444" class="text">.:/app</text>
+  <text x="78" y="468" class="text">/app/node_modules</text>
+
+  <rect x="60" y="517" width="270" height="112" rx="10" class="accent"/>
+  <text x="78" y="548" class="label" style="font-size:16px">Commandes</text>
+  <text x="78" y="574" class="text">docker compose up --build</text>
+  <text x="78" y="598" class="text">curl localhost:3000/health</text>
+
+  <rect x="420" y="120" width="470" height="500" rx="16" class="docker"/>
+  <text x="445" y="160" class="label">Docker Engine</text>
+
+  <rect x="450" y="190" width="410" height="380" rx="14" class="box"/>
+  <text x="470" y="228" class="label">Container app (Node.js)</text>
+
+  <rect x="470" y="250" width="370" height="78" rx="10" class="node"/>
+  <text x="488" y="282" class="text">node:24-alpine (image de base)</text>
+  <text x="488" y="304" class="text">npm start -> server.js</text>
+
+  <rect x="470" y="342" width="370" height="70" rx="10" class="accent"/>
+  <text x="488" y="374" class="text">Port interne : 3000</text>
+  <text x="488" y="396" class="text">Route / et /health</text>
+
+  <rect x="470" y="426" width="370" height="126" rx="10" class="box"/>
+  <text x="488" y="458" class="label" style="font-size:16px">Réseau compose</text>
+  <text x="488" y="484" class="text">service: app</text>
+  <text x="488" y="508" class="text">mapping port: 3000:3000</text>
+  <text x="488" y="532" class="text">accès via localhost</text>
+
+  <rect x="950" y="220" width="210" height="130" rx="12" class="accent"/>
+  <text x="973" y="256" class="label" style="font-size:16px">Navigateur / curl</text>
+  <text x="973" y="282" class="text">GET /</text>
+  <text x="973" y="306" class="text">GET /health</text>
+
+  <line x1="350" y1="560" x2="420" y2="560" class="arrow"/>
+  <line x1="890" y1="286" x2="950" y2="286" class="arrow"/>
+  <line x1="950" y1="316" x2="890" y2="316" class="arrow"/>
+
+  <text x="365" y="545" class="text">build + run</text>
+  <text x="905" y="272" class="text">requête</text>
+  <text x="905" y="338" class="text">réponse</text>
+</svg>

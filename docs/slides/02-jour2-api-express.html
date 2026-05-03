@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js J2 - API Express</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css">
+  <style>
+    .reveal{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .reveal h1,.reveal h2{color:#0b63b7}
+    .chip{display:inline-block;background:#e8f4ff;color:#0b63b7;border-radius:999px;padding:4px 10px;font-size:.5em;font-weight:700}
+    .card{background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:14px}
+    .small{font-size:.65em;color:#475569}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .reveal pre{font-size:.54em;border-radius:10px}
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <span class="chip">Node.js Niveau I</span>
+      <h1>Jour 2 - API REST</h1>
+      <p>Node natif -> Express -> ateliers renforcés</p>
+    </section>
+
+    <section>
+      <h2>Objectif pédagogique</h2>
+      <div class="card">
+        <p>Comprendre d'abord comment un serveur HTTP fonctionne <strong>sans framework</strong>, puis passer à Express pour industrialiser.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Exemple Node natif simple</h2>
+      <pre><code class="language-js">import http from "node:http";
+
+http.createServer((req, res) => {
+  if (req.method === "GET" && req.url === "/health") {
+    res.writeHead(200, { "content-type": "application/json" });
+    return res.end(JSON.stringify({ status: "ok" }));
+  }
+  res.writeHead(404); res.end();
+}).listen(3000);</code></pre>
+    </section>
+
+    <section>
+      <h2>Exemple Node natif technique</h2>
+      <pre><code class="language-js">if (req.method === "POST" && req.url === "/players") {
+  let body = "";
+  req.on("data", c => body += c);
+  req.on("end", () => {
+    const data = JSON.parse(body || "{}");
+    // validation + réponse 201 / 400
+  });
+}</code></pre>
+      <p class="small">On voit le coût de complexité du natif.</p>
+    </section>
+
+    <section>
+      <h2>Passage à Express</h2>
+      <pre><code class="language-js">import express from "express";
+const app = express();
+app.use(express.json());
+app.get("/health", (_req, res) => res.json({ status: "ok" }));
+app.listen(3000);</code></pre>
+    </section>
+
+    <section>
+      <h2>Exemples API</h2>
+      <div class="grid">
+        <div class="card"><strong>Exemple 1</strong><p class="small">POST /players avec validation</p></div>
+        <div class="card"><strong>Exemple 2</strong><p class="small">complete quest via service métier</p></div>
+      </div>
+      <div class="card" style="margin-top:12px"><strong>Exemple 3</strong><p class="small">middleware d'erreur unifié</p></div>
+    </section>
+
+    <section>
+      <h2>Ateliers renforcés</h2>
+      <div class="card">
+        <ol>
+          <li>Contrat API</li>
+          <li>Implémentation</li>
+          <li>Tests succès + erreurs</li>
+          <li>Refactor architecture</li>
+          <li>Sécurité</li>
+          <li>Qualité d'exploitation</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Mini-projet J2</h2>
+      <div class="card">
+        <p>Créer 3 joueurs, 4 quêtes, valider des quêtes, afficher leaderboard.</p>
+        <p class="small">Exigence: collection de tests rejouable + format d'erreur homogène.</p>
+      </div>
+    </section>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>Reveal.initialize({hash:true,slideNumber:true});</script>
+</body>
+</html>

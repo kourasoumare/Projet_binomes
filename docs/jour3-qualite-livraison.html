@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 3 - Atelier synthèse binôme</title>
+<style>
+@page{margin:20mm 18mm;size:A4}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#2d3436;line-height:1.7;max-width:820px;margin:0 auto;padding:24px 22px 56px}
+h1{font-size:1.6rem;color:#0984e3;border-bottom:2px solid #74b9ff;padding-bottom:8px;margin:24px 0 16px}
+h2{font-size:1.25rem;color:#2d3436;margin:26px 0 12px;padding-bottom:4px;border-bottom:1px solid #dfe6e9}
+h3{font-size:1.05rem;color:#636e72;margin:18px 0 8px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+code{background:#f1f2f6;padding:1px 5px;border-radius:3px;font-family:"SF Mono",Monaco,Consolas,"Liberation Mono",monospace;font-size:.88em}
+pre{background:#2d3436;color:#dfe6e9;padding:14px 18px;border-radius:8px;overflow-x:auto;font-size:.83rem;line-height:1.5;margin:10px 0}
+pre code{background:none;padding:0;color:inherit}
+.header-bar{background:#0984e3;color:#fff;padding:12px 18px;border-radius:8px;margin-bottom:20px;font-size:.85rem}
+.header-bar strong{color:#fff}
+.top-links{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.top-links a{text-decoration:none;background:#f1f2f6;color:#2d3436;padding:8px 10px;border-radius:8px;font-size:.88rem}
+.top-links a:hover{background:#e5e7eb}
+.check{background:#f8f9fa;border-left:4px solid #74b9ff;padding:10px 12px;margin:10px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #dfe6e9;padding:8px 10px;text-align:left;font-size:.9rem}
+th{background:#f1f2f6}
+</style>
+</head>
+<body>
+<div class="header-bar"><strong>Node.js Niveau I - Jour 3</strong></div>
+<div class="top-links">
+  <a href="index.html">← Accueil cours</a>
+  <a href="jour2-api-express.html">← Jour 2</a>
+</div>
+<h1>Jour 3 - Atelier synthèse en binôme (projet noté)</h1>
+<p><strong>Objectif du jour</strong> : réaliser un mini-projet API en binôme à partir d'une expression des besoins, puis faire une démonstration notée.</p>
+<p><strong>Format</strong> : atelier concentré sur une après-midi.</p>
+
+<h2>1. Sujet atelier : Challenge Arena</h2>
+<h3>Expression des besoins</h3>
+<p><strong>Contexte</strong> : une association étudiante veut organiser des défis techniques entre participants et afficher un classement public.</p>
+<p><strong>Besoin métier</strong> : disposer d'une API simple pour créer des participants, créer des défis et comptabiliser les points.</p>
+
+<h3>Fonctionnalités obligatoires (MVP)</h3>
+<ol>
+<li>Créer un participant</li>
+<li>Créer un défi (titre, difficulté, points)</li>
+<li>Valider un défi pour un participant (ajout des points)</li>
+<li>Afficher le classement global</li>
+</ol>
+
+<h3>Contraintes techniques</h3>
+<ul>
+<li>API REST en JSON</li>
+<li>Validation minimale des entrées</li>
+<li>Gestion d'erreurs : <code>400</code>, <code>404</code>, <code>500</code></li>
+<li>Stockage au choix : JSON ou SQLite</li>
+<li>README d'exécution obligatoire</li>
+</ul>
+
+<h3>Critères d'acceptation</h3>
+<ul>
+<li>Le scénario complet est démontrable de bout en bout</li>
+<li>Le classement reflète correctement les points</li>
+<li>Les erreurs sont traitées proprement</li>
+<li>Le projet peut être lancé par un tiers en quelques commandes</li>
+</ul>
+
+<h2>2. Répartition du travail à deux</h2>
+<table>
+<thead><tr><th>Rôle</th><th>Responsabilités</th></tr></thead>
+<tbody>
+<tr>
+<td>Participant A</td>
+<td>Participants + classement + validations associées</td>
+</tr>
+<tr>
+<td>Participant B</td>
+<td>Défis + attribution des points + validations associées</td>
+</tr>
+<tr>
+<td>En commun</td>
+<td>Gestion d'erreurs, README, tests manuels, démo finale</td>
+</tr>
+</tbody>
+</table>
+
+<h2>3. Mini planning d'après-midi</h2>
+<table>
+<thead><tr><th>Étape</th><th>Objectif de sortie</th></tr></thead>
+<tbody>
+<tr><td>Cadrage rapide</td><td>Backlog MVP + structure projet + rôles validés</td></tr>
+<tr><td>Implémentation cœur</td><td>Routes obligatoires opérationnelles</td></tr>
+<tr><td>Validation et erreurs</td><td>Contrôles d'entrées + codes HTTP cohérents</td></tr>
+<tr><td>Recette manuelle</td><td>Scénario de test complet reproductible</td></tr>
+<tr><td>Finalisation</td><td>README + préparation de démo</td></tr>
+</tbody>
+</table>
+
+<h2>4. Grille de notation</h2>
+<table>
+<thead><tr><th>Critère</th><th>Points</th></tr></thead>
+<tbody>
+<tr><td>Respect de l'expression des besoins</td><td>8</td></tr>
+<tr><td>Qualité technique (structure, lisibilité)</td><td>4</td></tr>
+<tr><td>Validation et gestion des erreurs</td><td>3</td></tr>
+<tr><td>Démonstration fonctionnelle</td><td>3</td></tr>
+<tr><td>README et autonomie d'exécution</td><td>2</td></tr>
+</tbody>
+</table>
+<p><strong>Total</strong> : 20 points.</p>
+
+<h2>5. Checklist de rendu binôme</h2>
+<div class="check">
+<ul>
+<li>Les endpoints MVP fonctionnent.</li>
+<li>Le classement est correct.</li>
+<li>Les erreurs principales renvoient les bons statuts.</li>
+<li>Le README explique installation, lancement et test.</li>
+<li>La démo suit un scénario clair.</li>
+</ul>
+</div>
+
+<div class="top-links">
+  <a href="jour2-api-express.html">← Jour 2</a>
+  <a href="index.html">Accueil cours</a>
+</div>
+</body>
+</html>

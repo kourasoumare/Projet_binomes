@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker - Introduction et pratique Node.js</title>
+<style>
+@page{margin:20mm 18mm;size:A4}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15.5px;color:#2d3436;line-height:1.65;max-width:860px;margin:0 auto;padding:24px 22px 56px}
+h1{font-size:1.5rem;color:#0984e3;border-bottom:2px solid #74b9ff;padding-bottom:8px;margin:22px 0 14px}
+h2{font-size:1.18rem;color:#2d3436;margin:24px 0 10px;padding-bottom:4px;border-bottom:1px solid #dfe6e9}
+h3{font-size:1.01rem;color:#636e72;margin:16px 0 7px}
+p{margin:7px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+code{background:#f1f2f6;padding:1px 5px;border-radius:3px;font-family:"SF Mono",Monaco,Consolas,"Liberation Mono",monospace;font-size:.87em}
+pre{background:#2d3436;color:#dfe6e9;padding:13px 16px;border-radius:8px;overflow-x:auto;font-size:.8rem;line-height:1.5;margin:10px 0}
+pre code{background:none;padding:0;color:inherit}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #dfe6e9;padding:8px 9px;text-align:left;font-size:.88rem;vertical-align:top}
+th{background:#f1f2f6}
+.header-bar{background:#0984e3;color:#fff;padding:11px 16px;border-radius:8px;margin-bottom:18px;font-size:.84rem}
+.header-bar strong{color:#fff}
+.top-links{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
+.top-links a{text-decoration:none;background:#f1f2f6;color:#2d3436;padding:8px 10px;border-radius:8px;font-size:.86rem}
+.top-links a:hover{background:#e5e7eb}
+.callout{background:#f8f9fa;border-left:4px solid #0984e3;padding:10px 12px;margin:10px 0}
+.warn{background:#fff7ed;border-left:4px solid #f59e0b;padding:10px 12px;margin:10px 0}
+.ok{background:#f0fdf4;border-left:4px solid #22c55e;padding:10px 12px;margin:10px 0}
+.schema-wrap{background:#fff;border:1px solid #dfe6e9;border-radius:10px;padding:10px;margin:12px 0}
+.schema-wrap img{display:block;max-width:100%;height:auto;border-radius:7px}
+.term{position:relative;border-bottom:1px dotted #0b63b7;cursor:help;font-weight:600}
+.term:focus{outline:2px solid #93c5fd;outline-offset:2px}
+.term:hover::after,.term:focus::after{content:attr(data-def);position:absolute;left:0;top:calc(100% + 6px);width:280px;background:#111827;color:#f9fafb;padding:8px 10px;border-radius:8px;font-size:.78rem;font-weight:500;line-height:1.35;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+</style>
+</head>
+<body>
+<div class="header-bar"><strong>Node.js Niveau I - Module Docker</strong></div>
+<div class="top-links">
+  <a href="index.html">← Accueil cours</a>
+  <a href="plan-de-cours.html">Plan détaillé</a>
+</div>
+
+<h1>Docker : architecture du projet, vocabulaire précis et mise en pratique Node.js</h1>
+<p><strong>Objectif</strong> : comprendre les concepts Docker avec les bons termes, visualiser l'architecture, puis exécuter un projet Node.js conteneurisé opérationnel.</p>
+<p>Les mots soulignés sont définis au survol (ou au focus clavier).</p>
+
+<h2>1. Architecture du mini-projet (vue d'ensemble avant la pratique)</h2>
+<p>Nous allons construire un service Node.js unique (<code>app</code>) piloté par Docker Compose, exposé localement sur le port <code>3000</code>.</p>
+<div class="schema-wrap">
+  <img src="assets/docker-projet-architecture.svg" alt="Schéma architecture mini-projet Node.js avec Docker Compose">
+</div>
+
+<h3>Ce que montre le schéma</h3>
+<ul>
+<li>Le code source reste sur le poste étudiant dans <code>docker-node-demo/</code>.</li>
+<li>Docker construit une image puis démarre un conteneur.</li>
+<li>Le port hôte <code>3000</code> est mappé au port conteneur <code>3000</code>.</li>
+<li>Les requêtes HTTP (<code>/</code>, <code>/health</code>) arrivent dans l'application Node.js.</li>
+<li>Le volume de développement permet de refléter les modifications de code.</li>
+</ul>
+
+<h2>2. Termes Docker</h2>
+<table>
+<thead><tr><th>Terme</th><th>Définition exacte</th><th>Exemple dans le cours</th></tr></thead>
+<tbody>
+<tr><td>Image</td><td>Artefact immutable en lecture seule, composé de layers.</td><td><code>docker-node-demo:1.0</code></td></tr>
+<tr><td>Conteneur</td><td>Processus isolé lancé à partir d'une image avec une couche d'écriture.</td><td><code>docker-node-demo-app</code></td></tr>
+<tr><td>Layer</td><td>Couche créée par une instruction du Dockerfile.</td><td><code>RUN npm install</code></td></tr>
+<tr><td>Registry</td><td>Serveur qui stocke des images Docker.</td><td>Docker Hub</td></tr>
+<tr><td>Tag</td><td>Version d'image.</td><td><code>node:24-alpine</code></td></tr>
+<tr><td>Volume</td><td>Stockage persistant séparé du cycle de vie du conteneur.</td><td><code>/app/node_modules</code></td></tr>
+<tr><td>Bind mount</td><td>Montage direct d'un dossier hôte dans le conteneur.</td><td><code>.:/app</code></td></tr>
+<tr><td>Port mapping</td><td>Redirection d'un port hôte vers un port conteneur.</td><td><code>3000:3000</code></td></tr>
+<tr><td>Service Compose</td><td>Définition déclarative d'un composant à démarrer.</td><td><code>services.app</code></td></tr>
+</tbody>
+</table>
+
+<h2>3. Sur quoi Docker repose techniquement ?</h2>
+<ul>
+<li><strong><span class="term" tabindex="0" data-def="Noyau du système d'exploitation qui gère les ressources matérielles et les processus.">Kernel Linux</span></strong> (sur Mac/Windows via VM Linux intégrée).</li>
+<li><strong><span class="term" tabindex="0" data-def="Mécanisme Linux qui isole des ressources par processus.">Namespaces</span></strong> : isolation des processus, du réseau, du système de fichiers.</li>
+<li><strong><span class="term" tabindex="0" data-def="Mécanisme Linux qui limite et mesure CPU, mémoire et I/O.">cgroups</span></strong> : contrôle CPU/mémoire et <span class="term" tabindex="0" data-def="I/O signifie Input/Output : les entrées/sorties comme disque, réseau, clavier, fichiers.">I/O</span> pour chaque conteneur.</li>
+<li><strong><span class="term" tabindex="0" data-def="Système de fichiers en couches utilisé pour construire les images Docker.">OverlayFS / overlay2</span></strong> : empilement des couches de fichiers.</li>
+<li><strong><span class="term" tabindex="0" data-def="runtime OCI: programme qui lance techniquement le conteneur.">containerd + runc (OCI)</span></strong> : exécution réelle des conteneurs.</li>
+</ul>
+
+<h2>4. Comprendre les layers avec une image</h2>
+<div class="schema-wrap">
+  <img src="assets/docker-layers.svg" alt="Schéma des layers Docker à partir du Dockerfile">
+</div>
+<div class="callout">
+<p><strong>Règle de performance</strong> : placer <code>COPY package*.json</code> puis <code>RUN npm install</code> avant <code>COPY . .</code> permet de réutiliser le cache lorsque seul le code applicatif change.</p>
+</div>
+<pre><code># Voir l'historique des layers
+docker history docker-node-demo:1.0</code></pre>
+
+<h2>5. Docker et Docker Compose : rôles complémentaires</h2>
+<table>
+<thead><tr><th>Outil</th><th>Rôle</th><th>Commande clé</th></tr></thead>
+<tbody>
+<tr><td>Docker</td><td>Construire une image et lancer un conteneur unique.</td><td><code>docker build</code>, <code>docker run</code></td></tr>
+<tr><td>Docker Compose</td><td>Décrire et lancer un ensemble de services.</td><td><code>docker compose up</code></td></tr>
+</tbody>
+</table>
+
+<h2>6. Pré-requis à vérifier</h2>
+<pre><code>docker --version
+docker compose version
+docker run hello-world</code></pre>
+<div class="ok">
+<p><strong>Attendu</strong> : les trois commandes renvoient une sortie valide sans erreur.</p>
+</div>
+
+<h2>7. Deux configurations Docker du cours</h2>
+<table>
+<thead><tr><th>Configuration</th><th>Objectif</th><th>Emplacement</th></tr></thead>
+<tbody>
+<tr>
+  <td><code>sandbox-node</code></td>
+  <td>Exécuter des scripts Node.js (CLI) dans le <span class="term" tabindex="0" data-def="Programme qui exécute JavaScript côté serveur, ici Node.js.">runtime</span> Node, sans serveur HTTP.</td>
+  <td><code>docs/nodejs-niveau-1/sandbox-node</code></td>
+</tr>
+<tr>
+  <td><code>sandbox-server</code></td>
+  <td>Exécuter une API Express conteneurisée et tester des routes HTTP.</td>
+  <td><code>docs/nodejs-niveau-1/sandbox-server</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2>8. Configuration A : sandbox-node (scripts Node.js)</h2>
+<h3>8.1 Démarrer</h3>
+<pre><code># depuis la racine du projet
+cd docs/nodejs-niveau-1/sandbox-node
+docker compose up -d --build</code></pre>
+
+<h3>8.2 Lancer des commandes Node dans le conteneur</h3>
+<pre><code>docker compose exec node npm start -- help
+docker compose exec node npm start -- list-quests
+docker compose exec node npm start -- create-player Alice
+docker compose exec node npm start -- leaderboard</code></pre>
+
+<h3>8.3 Arrêter</h3>
+<pre><code>docker compose down</code></pre>
+
+<h2>9. Configuration B : sandbox-server (API Express)</h2>
+<h3>9.1 Démarrer</h3>
+<pre><code># depuis la racine du projet
+cd docs/nodejs-niveau-1/sandbox-server
+docker compose up -d --build</code></pre>
+
+<h3>9.2 Tester le serveur</h3>
+<pre><code>curl http://localhost:3000/
+curl http://localhost:3000/health
+curl http://localhost:3000/version</code></pre>
+<div class="ok">
+<p><strong>Résultats attendus</strong> :</p>
+<ul>
+<li><code>/</code> renvoie un message texte de confirmation.</li>
+<li><code>/health</code> renvoie un JSON avec <code>status: "ok"</code>.</li>
+<li><code>/version</code> renvoie la version Node et l'environnement.</li>
+</ul>
+</div>
+
+<h3>9.3 Arrêter</h3>
+<pre><code>docker compose down</code></pre>
+
+<h2>10. Commandes essentielles Docker Compose</h2>
+<h3>10.1 État et validation</h3>
+<pre><code>docker compose ps
+docker compose config
+docker ps -a</code></pre>
+
+<h3>10.2 Logs et diagnostic</h3>
+<pre><code>docker compose logs
+docker compose logs -f
+docker compose logs -f app
+docker compose logs -f node</code></pre>
+<p>Utiliser <code>app</code> pour <code>sandbox-server</code> et <code>node</code> pour <code>sandbox-node</code>.</p>
+
+<h3>10.3 Entrer dans un conteneur</h3>
+<pre><code>docker compose exec app sh
+docker compose exec node sh</code></pre>
+
+<h3>10.4 Redémarrer et arrêter</h3>
+<pre><code>docker compose restart
+docker compose stop
+docker compose down</code></pre>
+
+<h2>11. Nettoyage images, volumes et cache</h2>
+<div class="warn">
+<p><strong>Attention</strong> : ces commandes suppriment des ressources Docker. Les exécuter seulement si vous savez ce que vous retirez.</p>
+</div>
+
+<h3>11.1 Nettoyage du projet courant</h3>
+<pre><code>docker compose down -v --rmi local --remove-orphans</code></pre>
+
+<h3>11.2 Visualiser l'espace consommé</h3>
+<pre><code>docker system df
+docker image ls
+docker volume ls</code></pre>
+
+<h3>11.3 Nettoyage global (machine)</h3>
+<pre><code>docker image prune -f
+docker volume prune -f
+docker builder prune -f</code></pre>
+
+<h2>12. Critères de réussite du module</h2>
+<ul>
+<li>Le participant sait expliquer les deux configurations <code>sandbox-node</code> et <code>sandbox-server</code>.</li>
+<li>Le participant sait démarrer, tester et arrêter les deux environnements.</li>
+<li>Le participant sait diagnostiquer un problème via <code>ps</code>, <code>logs</code> et <code>exec</code>.</li>
+<li>Le participant sait nettoyer proprement les ressources Docker utiles au cours.</li>
+</ul>
+
+<h2>13. Glossaire</h2>
+<table>
+<thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+<tbody>
+<tr><td>Runtime</td><td>Programme qui exécute le code (exemple : Node.js exécute JavaScript).</td></tr>
+<tr><td>Image</td><td>Modèle immutable qui contient application, dépendances et configuration.</td></tr>
+<tr><td>Conteneur</td><td>Instance en exécution d'une image, isolée du reste du système.</td></tr>
+<tr><td>Layer</td><td>Couche de fichiers créée par une instruction Dockerfile.</td></tr>
+<tr><td>Dockerfile</td><td>Fichier d'instructions pour construire une image.</td></tr>
+<tr><td>Compose</td><td>Outil pour définir et piloter plusieurs services via un fichier YAML.</td></tr>
+<tr><td>Volume</td><td>Stockage persistant géré par Docker.</td></tr>
+<tr><td>Bind mount</td><td>Montage d'un dossier local directement dans le conteneur.</td></tr>
+<tr><td>Port mapping</td><td>Correspondance entre port machine et port conteneur.</td></tr>
+<tr><td>Registry</td><td>Catalogue distant d'images Docker (exemple : Docker Hub).</td></tr>
+<tr><td>Tag</td><td>Version ou variante d'une image.</td></tr>
+<tr><td>Namespaces</td><td>Isolation Linux des ressources système par groupe de processus.</td></tr>
+<tr><td>cgroups</td><td>Mécanisme Linux de contrôle des ressources CPU, RAM et I/O.</td></tr>
+<tr><td>I/O</td><td>Abréviation de Input/Output : flux d'entrée/sortie (disque, réseau, fichiers, terminal).</td></tr>
+<tr><td>OCI</td><td>Standard ouvert de format d'image et d'exécution de conteneurs.</td></tr>
+</tbody>
+</table>
+
+<div class="top-links">
+  <a href="index.html">← Accueil cours</a>
+  <a href="jour2-api-express.html">Retour Jour 2</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js - Module Docker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css">
+  <style>
+    .reveal{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:37px}
+    .reveal h1,.reveal h2{color:#0b63b7}
+    .chip{display:inline-block;background:#e8f4ff;color:#0b63b7;border-radius:999px;padding:4px 10px;font-size:.5em;font-weight:700}
+    .card{background:#f8fafc;border:1px solid #dbe4ee;border-radius:12px;padding:14px}
+    .small{font-size:.65em;color:#475569}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .reveal pre{font-size:.5em;border-radius:10px}
+    .reveal table{font-size:.45em;width:100%;border-collapse:collapse}
+    .reveal th,.reveal td{border:1px solid #dbe4ee;padding:8px;text-align:left;vertical-align:top}
+    .reveal th{background:#f1f5f9}
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <span class="chip">Module complémentaire</span>
+      <h1>Docker pour Node.js</h1>
+      <p>Architecture, vocabulaire précis, puis exécution opérationnelle</p>
+    </section>
+
+    <section>
+      <h2>Architecture du mini-projet</h2>
+      <img src="../cours-html/assets/docker-projet-architecture.svg" alt="architecture docker node" style="max-height:520px;width:auto;border:1px solid #dbe4ee;border-radius:10px;background:#fff;">
+    </section>
+
+    <section>
+      <h2>Lecture rapide de l'architecture</h2>
+      <div class="card">
+        <ul>
+          <li>Code local : <code>docker-node-demo/</code></li>
+          <li>Service Compose : <code>app</code></li>
+          <li>Port mappé : <code>3000:3000</code></li>
+          <li>Routes test : <code>/</code> et <code>/health</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Termes Docker à maîtriser</h2>
+      <table>
+        <thead>
+          <tr><th>Terme</th><th>Définition</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Image</td><td>Artefact immutable en lecture seule.</td></tr>
+          <tr><td>Conteneur</td><td>Processus isolé lancé depuis une image.</td></tr>
+          <tr><td>Layer</td><td>Couche créée par une instruction Dockerfile.</td></tr>
+          <tr><td>Volume</td><td>Stockage persistant séparé du conteneur.</td></tr>
+          <tr><td>Service</td><td>Composant défini dans compose.yml.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Sur quoi Docker repose ?</h2>
+      <div class="grid-3">
+        <div class="card"><strong>Namespaces</strong><p class="small">Isolation système.</p></div>
+        <div class="card"><strong>cgroups</strong><p class="small">Limites CPU/RAM.</p></div>
+        <div class="card"><strong>OverlayFS</strong><p class="small">Empilement des layers.</p></div>
+      </div>
+      <div class="grid" style="margin-top:12px">
+        <div class="card"><strong>containerd</strong><p class="small">Gestion cycle de vie.</p></div>
+        <div class="card"><strong>runc (OCI)</strong><p class="small">Exécution bas niveau.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Layers : image visuelle</h2>
+      <img src="../cours-html/assets/docker-layers.svg" alt="layers docker" style="max-height:520px;width:auto;border:1px solid #dbe4ee;border-radius:10px;background:#fff;">
+    </section>
+
+    <section>
+      <h2>Pré-requis</h2>
+      <pre><code>docker --version
+docker compose version
+docker run hello-world</code></pre>
+      <p class="small">Les 3 commandes doivent fonctionner.</p>
+    </section>
+
+    <section>
+      <h2>Deux configurations du cours</h2>
+      <table>
+        <thead><tr><th>Config</th><th>But</th><th>Dossier</th></tr></thead>
+        <tbody>
+          <tr><td>sandbox-node</td><td>Scripts Node.js CLI</td><td>docs/nodejs-niveau-1/sandbox-node</td></tr>
+          <tr><td>sandbox-server</td><td>API Express + routes HTTP</td><td>docs/nodejs-niveau-1/sandbox-server</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>sandbox-node : démarrer et exécuter</h2>
+      <pre><code># depuis la racine du projet
+cd docs/nodejs-niveau-1/sandbox-node
+docker compose up -d --build
+
+docker compose exec node npm start -- help
+docker compose exec node npm start -- list-quests
+docker compose exec node npm start -- create-player Alice</code></pre>
+    </section>
+
+    <section>
+      <h2>sandbox-server : démarrer et tester</h2>
+      <pre><code># depuis la racine du projet
+cd docs/nodejs-niveau-1/sandbox-server
+docker compose up -d --build
+
+curl http://localhost:3000/
+curl http://localhost:3000/health
+curl http://localhost:3000/version</code></pre>
+    </section>
+
+    <section>
+      <h2>État et debug</h2>
+      <pre><code>docker compose ps
+docker compose config
+docker compose logs -f
+docker compose logs -f app
+docker compose logs -f node
+docker compose exec app sh
+docker compose exec node sh</code></pre>
+    </section>
+
+    <section>
+      <h2>Arrêt et nettoyage</h2>
+      <pre><code>docker compose stop
+docker compose down
+docker compose down -v --rmi local --remove-orphans
+
+docker system df
+docker image prune -f
+docker volume prune -f
+docker builder prune -f</code></pre>
+      <p class="small">Les commandes de nettoyage suppriment des ressources : à utiliser avec prudence.</p>
+    </section>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>Reveal.initialize({hash:true,slideNumber:true});</script>
+</body>
+</html>

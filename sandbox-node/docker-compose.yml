@@ -1,0 +1,11 @@
+services:
+  node:
+    build: .
+    container_name: sandbox-node-cli
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "tail -f /dev/null"
+    stdin_open: true
+    tty: true

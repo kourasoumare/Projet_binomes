@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syllabus</title>
+<style>
+@page{margin:20mm 18mm;size:A4}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:#2d3436;line-height:1.7;max-width:800px;margin:0 auto;padding:30px 24px 60px}
+h1{font-size:1.6rem;color:#0984e3;border-bottom:2px solid #74b9ff;padding-bottom:8px;margin:24px 0 16px}
+h2{font-size:1.25rem;color:#2d3436;margin:28px 0 12px;padding-bottom:4px;border-bottom:1px solid #dfe6e9}
+h3{font-size:1.05rem;color:#636e72;margin:20px 0 8px}
+h4{font-size:.95rem;margin:16px 0 6px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+code{background:#f1f2f6;padding:1px 5px;border-radius:3px;font-family:"SF Mono",Monaco,Consolas,"Liberation Mono",monospace;font-size:.88em}
+pre{background:#2d3436;color:#dfe6e9;padding:16px 20px;border-radius:8px;overflow-x:auto;font-size:.82rem;line-height:1.5;margin:12px 0}
+pre code{background:none;padding:0;color:inherit;font-size:inherit}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #dfe6e9;padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:#f1f2f6;font-weight:600}
+tr:nth-child(even){background:#f8f9fa}
+blockquote{border-left:4px solid #74b9ff;margin:12px 0;padding:8px 16px;background:#f8f9fa;color:#636e72}
+strong{color:#2d3436}
+hr{border:none;border-top:1px solid #dfe6e9;margin:24px 0}
+.header-bar{background:#0984e3;color:#fff;padding:12px 20px;border-radius:8px;margin-bottom:24px;font-size:.85rem}
+.header-bar strong{color:#fff}
+</style>
+</head>
+<body>
+<div class="header-bar"><strong>Node.js Niveau I</strong></div>
+<p><a href="index.html">&larr; Retour accueil cours</a> | <a href="jour1-fondations.html">Jour 1</a> | <a href="jour2-api-express.html">Jour 2</a> | <a href="jour3-qualite-livraison.html">Jour 3</a></p>
+<h1>Node.js Niveau I — Syllabus</h1>
+<h2>Initiation Node.js (dernière LTS)</h2>
+<p><strong>Durée</strong> : 3 jours<br>
+<strong>Format</strong> : présentiel ou distanciel synchrone<br>
+<strong>Référence version</strong> : branche LTS Node.js 24 (Krypton), état constaté au 30/04/2026</p>
+<hr>
+<h2>Description</h2>
+<p>Formation de 3 jours pour apprendre Node.js pas à pas, avec une progression orientée pratique. Les participants découvrent les fondamentaux (runtime, modules, asynchrone), puis construisent une API web complète avec Express, et terminent sur un atelier de synthèse en binôme.</p>
+<p>Le parcours est gamifié pour garder un rythme dynamique : défis, points, niveaux et objectifs de sprint. Chaque notion technique est appliquée immédiatement dans un mini-univers de jeu.</p>
+<hr>
+<h2>Introduction historique (repères)</h2>
+<ul>
+<li><strong>2009</strong> : création de Node.js par Ryan Dahl pour exécuter JavaScript côté serveur avec un modèle non bloquant.</li>
+<li><strong>2010</strong> : arrivée de <code>npm</code>, qui accélère fortement l'adoption grâce à l'écosystème de packages.</li>
+<li><strong>2015</strong> : stabilisation du projet sous la Node.js Foundation, puis convergence de l'écosystème.</li>
+<li><strong>Depuis</strong> : cadence LTS régulière, amélioration des performances, sécurité et expérience développeur.</li>
+</ul>
+<h2>Briques techniques qui constituent Node.js</h2>
+<ul>
+<li><strong>Moteur V8</strong> : exécution et optimisation du code JavaScript.</li>
+<li><strong>libuv</strong> : boucle d'événements, I/O non bloquantes, pool de threads.</li>
+<li><strong>APIs Node.js</strong> : modules natifs (<code>fs</code>, <code>http</code>, <code>path</code>, <code>stream</code>, etc.).</li>
+<li><strong>Système de modules</strong> : CommonJS et ESM pour structurer les applications.</li>
+<li><strong>npm</strong> : gestionnaire de packages, scripts de projet et dépendances.</li>
+<li><strong>Couche C/C++ interne</strong> : liaison entre JavaScript, V8 et les composants système.</li>
+</ul>
+<hr>
+<h2>Public cible</h2>
+<ul>
+<li>Profils souhaitant démarrer en programmation backend</li>
+<li>Développeurs front souhaitant passer full stack</li>
+<li>Professionnels en reconversion vers le développement web</li>
+<li>Étudiants souhaitant comprendre les bases d'une API moderne</li>
+</ul>
+<h2>Prérequis</h2>
+<ul>
+<li>Aisance informatique de base (fichiers, terminal, éditeur)</li>
+<li>Notions JavaScript recommandées (variables, fonctions, objets)</li>
+<li>Aucune expérience Node.js requise</li>
+</ul>
+<hr>
+<h2>Objectifs pédagogiques</h2>
+<ol>
+<li><strong>Installer et configurer</strong> Node.js LTS, npm et un environnement de dev</li>
+<li><strong>Comprendre le modèle Node.js</strong> : event loop, non bloquant, modules</li>
+<li><strong>Écrire du code asynchrone</strong> avec Promises et <code>async/await</code></li>
+<li><strong>Construire une API REST</strong> avec Express (CRUD complet)</li>
+<li><strong>Structurer un projet</strong> : routes, controllers, services, middleware</li>
+<li><strong>Ajouter une base de données</strong> SQLite avec accès propre</li>
+<li><strong>Tester et sécuriser</strong> une API</li>
+<li><strong>Livrer un mini-projet en binôme</strong> à partir d'une expression des besoins</li>
+</ol>
+<hr>
+<h2>Fil rouge gamifié (J1 + J2) : Campus Quest API</h2>
+<table>
+<thead>
+<tr>
+<th>Jour</th>
+<th>Livrable fil rouge</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Jour 1</td>
+<td>CLI Campus Quest : créer un joueur, accepter une quête, gagner de l'XP</td>
+</tr>
+<tr>
+<td>Jour 2</td>
+<td>API REST Campus Quest : endpoints joueurs/quetes/scores + classement</td>
+</tr>
+<tr>
+<td>Jour 3</td>
+<td>Atelier synthèse en binôme : mini-projet noté sur une après-midi</td>
+</tr>
+</tbody></table>
+
+<h2>Idées de jeux Node.js (public 20 ans)</h2>
+<ul>
+<li><strong>Campus Quest API</strong> : quêtes, XP, niveaux, leaderboard (idéal pour CLI puis API).</li>
+<li><strong>Meme Battle</strong> : vote de memes, score en temps réel, top hebdo.</li>
+<li><strong>Speed Trivia Duel</strong> : duel de quiz avec timer et points bonus.</li>
+</ul>
+<hr>
+<h2>Programme par jour</h2>
+<h3>Jour 1 — Fondations Node.js</h3>
+<ul>
+<li>Outillage, modules, asynchrone</li>
+<li>Event loop expliquée en détail avec schéma</li>
+<li>Mise en place du jeu en CLI</li>
+<li>Défis progressifs avec système de points</li>
+</ul>
+<h3>Jour 2 — API web avec Express</h3>
+<ul>
+<li>HTTP et REST</li>
+<li>CRUD complet du jeu</li>
+<li>Validation, gestion d'erreurs, tests manuels</li>
+</ul>
+<h3>Jour 3 — Atelier synthèse en binôme</h3>
+<ul>
+<li>Expression des besoins</li>
+<li>Mini planning de réalisation</li>
+<li>Développement, tests, démonstration, notation</li>
+</ul>
+<h3>Module complémentaire — Docker pour Node.js</h3>
+<ul>
+<li>Présentation historique et utilité de Docker</li>
+<li>Différence entre Docker et Docker Compose</li>
+<li>Installation débutant et première exécution d'une app Node.js conteneurisée</li>
+</ul>
+<hr>
+<h2>Évaluation</h2>
+<ul>
+<li>Exercices pratiques à chaque module</li>
+<li>Défis gamifiés sur les J1 et J2</li>
+<li>Atelier final noté en binôme avec grille de critères</li>
+<li>Restitution orale de fin de projet</li>
+<li>Attestation de participation</li>
+</ul>
+<h2>Méthodes pédagogiques</h2>
+<ul>
+<li>Démonstration guidée pas à pas</li>
+<li>Pratique immédiate sur chaque notion</li>
+<li>Correction collective et feedback court</li>
+<li>Supports HTML, snippets, checklists de debug</li>
+<li>Approche : je montre, on fait ensemble, vous refaites</li>
+</ul>
+<h2>Matériel nécessaire</h2>
+<ul>
+<li>Ordinateur avec droits d'installation</li>
+<li>Node.js LTS installé</li>
+<li>VS Code (ou équivalent) + terminal</li>
+<li>Client API (Postman ou Insomnia)</li>
+<li>Connexion Internet pour installation des packages</li>
+</ul>
+</body>
+</html>

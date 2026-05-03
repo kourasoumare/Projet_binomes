@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Cours</title>
+<style>
+@page{margin:20mm 18mm;size:A4}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:#2d3436;line-height:1.7;max-width:800px;margin:0 auto;padding:30px 24px 60px}
+h1{font-size:1.6rem;color:#0984e3;border-bottom:2px solid #74b9ff;padding-bottom:8px;margin:24px 0 16px}
+h2{font-size:1.25rem;color:#2d3436;margin:28px 0 12px;padding-bottom:4px;border-bottom:1px solid #dfe6e9}
+h3{font-size:1.05rem;color:#636e72;margin:20px 0 8px}
+h4{font-size:.95rem;margin:16px 0 6px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+code{background:#f1f2f6;padding:1px 5px;border-radius:3px;font-family:"SF Mono",Monaco,Consolas,"Liberation Mono",monospace;font-size:.88em}
+pre{background:#2d3436;color:#dfe6e9;padding:16px 20px;border-radius:8px;overflow-x:auto;font-size:.82rem;line-height:1.5;margin:12px 0}
+pre code{background:none;padding:0;color:inherit;font-size:inherit}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #dfe6e9;padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:#f1f2f6;font-weight:600}
+tr:nth-child(even){background:#f8f9fa}
+blockquote{border-left:4px solid #74b9ff;margin:12px 0;padding:8px 16px;background:#f8f9fa;color:#636e72}
+strong{color:#2d3436}
+hr{border:none;border-top:1px solid #dfe6e9;margin:24px 0}
+.header-bar{background:#0984e3;color:#fff;padding:12px 20px;border-radius:8px;margin-bottom:24px;font-size:.85rem}
+.header-bar strong{color:#fff}
+</style>
+</head>
+<body>
+<div class="header-bar"><strong>Node.js Niveau I</strong></div>
+<p><a href="index.html">&larr; Retour accueil cours</a> | <a href="jour1-fondations.html">Jour 1</a> | <a href="jour2-api-express.html">Jour 2</a> | <a href="jour3-qualite-livraison.html">Jour 3</a></p>
+<h1>Node.js Niveau I — Plan de cours détaillé (3 jours)</h1>
+<p><strong>Formation</strong> : Initiation Node.js<br>
+<strong>Durée</strong> : 3 jours<br>
+<strong>Version cible</strong> : branche LTS Node.js 24 (état constaté au 30/04/2026)</p>
+<hr>
+<h2>Fil rouge gamifié : Campus Quest API</h2>
+<p>Les participants construisent un mini-jeu de progression :</p>
+<ul>
+<li>Joueur (pseudo, niveau, XP)</li>
+<li>Quêtes (facile, moyen, difficile)</li>
+<li>Récompenses (points, badges)</li>
+<li>Classement global</li>
+</ul>
+<hr>
+<h2>Ouverture : histoire et architecture de Node.js</h2>
+<h3>Repères historiques</h3>
+<ul>
+<li>Naissance en 2009 pour proposer un serveur JavaScript orienté I/O non bloquantes.</li>
+<li>Montée en puissance grâce à <code>npm</code> et à la culture open source.</li>
+<li>Maturité actuelle : versions LTS, gouvernance stable, usage massif en backend et tooling.</li>
+</ul>
+<h3>Briques techniques à connaître dès le départ</h3>
+<ul>
+<li><strong>V8</strong> : moteur JavaScript.</li>
+<li><strong>libuv</strong> : event loop, I/O, timers, file system, réseau.</li>
+<li><strong>APIs natives Node</strong> : <code>fs</code>, <code>http</code>, <code>path</code>, <code>stream</code>, <code>crypto</code>.</li>
+<li><strong>Modules et runtime</strong> : CommonJS, ESM, chargement de dépendances.</li>
+<li><strong>npm</strong> : dépendances, scripts, distribution de packages.</li>
+</ul>
+<hr>
+<h2>JOUR 1 — Fondations Node.js et CLI gamifiée</h2>
+<hr>
+<h3>Module 1 : Installation et prise en main</h3>
+<p><strong>Objectifs</strong> : comprendre Node.js, installer l'environnement, lancer ses premières commandes.</p>
+<ul>
+<li>Node.js runtime, npm, scripts</li>
+<li>Structure d'un projet</li>
+<li>Premier script exécutable</li>
+</ul>
+
+<h3>Module 2 : JavaScript serveur et modules</h3>
+<p><strong>Objectifs</strong> : maîtriser les bases JavaScript nécessaires côté serveur.</p>
+<ul>
+<li>ESM <code>import/export</code></li>
+<li>Modules natifs (<code>node:fs/promises</code>, <code>node:path</code>)</li>
+<li>Organisation claire des fichiers</li>
+</ul>
+
+<h3>Module 3 : Asynchrone pas à pas</h3>
+<p><strong>Objectifs</strong> : utiliser correctement Promises et <code>async/await</code>.</p>
+<ul>
+<li>Lecture détaillée de l'event loop avec schéma pédagogique</li>
+<li>Opérations I/O</li>
+<li><code>try/catch</code> et messages d'erreurs utiles</li>
+<li>Écriture et lecture JSON</li>
+</ul>
+
+<h3>Module 4 : Défis CLI (gamification)</h3>
+<p><strong>Objectifs</strong> : livrer une première version jouable en terminal.</p>
+<ul>
+<li>Commande <code>create-player</code></li>
+<li>Commande <code>accept-quest</code></li>
+<li>Commande <code>complete-quest</code></li>
+<li>Commande <code>show-stats</code></li>
+</ul>
+<p><strong>Défi</strong> : système de points (bronze, argent, or) selon la qualité du code et la gestion des erreurs.</p>
+<p><strong>Livrable fin J1</strong> : CLI Campus Quest fonctionnelle avec stockage JSON.</p>
+<hr>
+<h2>JOUR 2 — API REST gamifiée avec Express</h2>
+<hr>
+<h3>Module 5 : Bases HTTP et REST</h3>
+<p><strong>Objectifs</strong> : poser les conventions API pour le jeu.</p>
+<ul>
+<li>Ressources : <code>/players</code>, <code>/quests</code>, <code>/scores</code></li>
+<li>Codes HTTP cohérents</li>
+<li>Contrat JSON commun</li>
+</ul>
+
+<h3>Module 6 : Express pas à pas</h3>
+<p><strong>Objectifs</strong> : construire les routes principales.</p>
+<ul>
+<li><code>GET /players</code></li>
+<li><code>POST /players</code></li>
+<li><code>POST /players/:id/quests/:questId/complete</code></li>
+<li><code>GET /leaderboard</code></li>
+</ul>
+
+<h3>Module 7 : Qualité d'API</h3>
+<p><strong>Objectifs</strong> : validation, gestion des erreurs, structure propre.</p>
+<ul>
+<li>Validation des entrées</li>
+<li>Middleware d'erreur</li>
+<li>Séparation routes/controllers/services</li>
+</ul>
+
+<h3>Module 8 : Challenges API (gamification)</h3>
+<p><strong>Objectifs</strong> : stabiliser l'API et valider les flux bout en bout.</p>
+<ul>
+<li>Challenge 1 : endpoint bonus <code>/daily-quest</code></li>
+<li>Challenge 2 : endpoint <code>/top-3</code></li>
+<li>Challenge 3 : anti-triche (pas de gain XP en double)</li>
+</ul>
+<p><strong>Livrable fin J2</strong> : API Campus Quest complète, testée manuellement.</p>
+<hr>
+<h2>JOUR 3 — Atelier synthèse binôme (après-midi) noté</h2>
+<hr>
+<h3>Module 9 : Cadrage de l'atelier</h3>
+<p><strong>Objectifs</strong> : lire une expression des besoins et définir un plan d'implémentation.</p>
+<ul>
+<li>Lecture du besoin</li>
+<li>Choix du MVP</li>
+<li>Répartition des rôles à 2</li>
+</ul>
+
+<h3>Expression des besoins (atelier)</h3>
+<p><strong>Contexte</strong> : une association étudiante veut une mini-API pour organiser des défis entre participants.</p>
+<p><strong>Nom du projet</strong> : <code>Challenge Arena</code>.</p>
+<p><strong>Fonctionnalités attendues (MVP)</strong> :</p>
+<ol>
+<li>Créer un participant</li>
+<li>Créer un défi (titre, difficulté, points)</li>
+<li>Valider un défi pour un participant (ajout de points)</li>
+<li>Afficher le classement des participants</li>
+</ol>
+<p><strong>Contraintes</strong> :</p>
+<ul>
+<li>API REST en JSON</li>
+<li>Validation minimale des entrées</li>
+<li>Gestion des erreurs (<code>400</code>, <code>404</code>, <code>500</code>)</li>
+<li>Stockage libre : JSON ou SQLite</li>
+</ul>
+<p><strong>Critères d'acceptation</strong> :</p>
+<ul>
+<li>Les 4 fonctionnalités sont démontrées en direct</li>
+<li>Le code est structuré</li>
+<li>Un README permet d'exécuter le projet rapidement</li>
+</ul>
+
+<h3>Mini planning de l'après-midi (binôme)</h3>
+<table>
+<thead>
+<tr>
+<th>Étape</th>
+<th>Livrable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cadrage rapide + répartition des rôles</td>
+<td>Backlog MVP + architecture des fichiers</td>
+</tr>
+<tr>
+<td>Développement des routes cœur</td>
+<td>Endpoints participants/défis opérationnels</td>
+</tr>
+<tr>
+<td>Validation + gestion d'erreurs</td>
+<td>Réponses HTTP cohérentes</td>
+</tr>
+<tr>
+<td>Tests manuels et ajustements</td>
+<td>Scénario de démonstration stable</td>
+</tr>
+<tr>
+<td>README + démo finale</td>
+<td>Projet livrable et présentable</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Répartition conseillée à deux participants</h3>
+<ul>
+<li><strong>Participant A</strong> : endpoints participants + classement</li>
+<li><strong>Participant B</strong> : endpoints défis + validation des défis</li>
+<li><strong>En commun</strong> : gestion d'erreurs, README, démonstration</li>
+</ul>
+
+<h3>Grille de notation (atelier final)</h3>
+<table>
+<thead>
+<tr>
+<th>Critère</th>
+<th>Points</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Respect de l'expression des besoins</td><td>8</td></tr>
+<tr><td>Qualité technique (structure, lisibilité)</td><td>4</td></tr>
+<tr><td>Validation et gestion des erreurs</td><td>3</td></tr>
+<tr><td>Démonstration fonctionnelle</td><td>3</td></tr>
+<tr><td>Qualité du README et autonomie d'exécution</td><td>2</td></tr>
+</tbody>
+</table>
+<p><strong>Total</strong> : 20 points.</p>
+<hr>
+<h2>Supports remis</h2>
+<ul>
+<li>Syllabus + plan de cours détaillé</li>
+<li>Pages Jour 1, Jour 2, Jour 3</li>
+<li>Module complémentaire Docker (histoire + installation pratique Node.js)</li>
+<li>Fiche atelier (expression des besoins + grille de notation)</li>
+<li>Checklist de démo finale</li>
+</ul>
+</body>
+</html>

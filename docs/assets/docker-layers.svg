@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-label="Empilement des layers Docker">
+  <defs>
+    <style>
+      .title{font:700 30px 'Segoe UI',Arial,sans-serif;fill:#0b63b7}
+      .label{font:600 19px 'Segoe UI',Arial,sans-serif;fill:#1f2937}
+      .text{font:500 15px 'Segoe UI',Arial,sans-serif;fill:#374151}
+      .layer1{fill:#e0f2fe;stroke:#0284c7;stroke-width:2}
+      .layer2{fill:#dcfce7;stroke:#16a34a;stroke-width:2}
+      .layer3{fill:#fef3c7;stroke:#d97706;stroke-width:2}
+      .layer4{fill:#ede9fe;stroke:#7c3aed;stroke-width:2}
+      .layer5{fill:#fee2e2;stroke:#dc2626;stroke-width:2}
+      .run{fill:#f8fafc;stroke:#334155;stroke-width:2;stroke-dasharray:7 6}
+      .box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2}
+    </style>
+  </defs>
+
+  <text x="40" y="50" class="title">Comment Docker construit une image en layers</text>
+
+  <rect x="40" y="90" width="470" height="540" rx="14" class="box"/>
+  <text x="62" y="126" class="label">Dockerfile (ordre réel)</text>
+  <text x="70" y="170" class="text">1. FROM node:24-alpine</text>
+  <text x="70" y="208" class="text">2. WORKDIR /app</text>
+  <text x="70" y="246" class="text">3. COPY package*.json ./</text>
+  <text x="70" y="284" class="text">4. RUN npm install --omit=dev</text>
+  <text x="70" y="322" class="text">5. COPY . .</text>
+  <text x="70" y="360" class="text">6. EXPOSE 3000</text>
+  <text x="70" y="398" class="text">7. CMD ["npm", "start"]</text>
+
+  <text x="62" y="460" class="label">Pourquoi cet ordre ?</text>
+  <text x="70" y="492" class="text">Si seul le code change (COPY . .),</text>
+  <text x="70" y="518" class="text">le layer npm install reste en cache.</text>
+  <text x="70" y="560" class="text">Build plus rapide et image plus stable.</text>
+
+  <rect x="620" y="540" width="500" height="70" rx="10" class="run"/>
+  <text x="645" y="582" class="label" style="font-size:18px">Conteneur en exécution = image + couche writable</text>
+
+  <rect x="620" y="472" width="500" height="58" rx="10" class="layer5"/>
+  <text x="646" y="507" class="text">Layer 5 - COPY . . (code applicatif)</text>
+
+  <rect x="620" y="404" width="500" height="58" rx="10" class="layer4"/>
+  <text x="646" y="439" class="text">Layer 4 - RUN npm install --omit=dev</text>
+
+  <rect x="620" y="336" width="500" height="58" rx="10" class="layer3"/>
+  <text x="646" y="371" class="text">Layer 3 - COPY package*.json ./</text>
+
+  <rect x="620" y="268" width="500" height="58" rx="10" class="layer2"/>
+  <text x="646" y="303" class="text">Layer 2 - WORKDIR /app</text>
+
+  <rect x="620" y="200" width="500" height="58" rx="10" class="layer1"/>
+  <text x="646" y="235" class="text">Layer 1 - FROM node:24-alpine</text>
+
+  <text x="620" y="160" class="label">Image finale (lecture seule)</text>
+</svg>

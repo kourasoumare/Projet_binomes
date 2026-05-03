@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" role="img" aria-label="Schéma Event Loop Node.js">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fbff"/>
+      <stop offset="100%" stop-color="#eef4ff"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4a5568"/>
+    </marker>
+    <style>
+      .title { font: 700 32px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif; fill: #1f2937; }
+      .subtitle { font: 500 18px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif; fill: #475569; }
+      .label { font: 600 17px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif; fill: #1f2937; }
+      .small { font: 500 14px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif; fill: #334155; }
+      .phase { font: 600 14px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif; fill: #0f172a; }
+      .note { font: 500 13px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="760" fill="url(#bg)"/>
+
+  <text x="40" y="52" class="title">Node.js Event Loop - Vue d'ensemble</text>
+  <text x="40" y="82" class="subtitle">Une seule boucle orchestre callbacks, I/O, timers et microtasks</text>
+
+  <!-- Call stack -->
+  <rect x="40" y="130" width="230" height="230" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="58" y="162" class="label">Call Stack</text>
+  <rect x="62" y="188" width="186" height="34" rx="8" fill="#dbeafe"/>
+  <text x="74" y="210" class="small">main()</text>
+  <rect x="62" y="228" width="186" height="34" rx="8" fill="#bfdbfe"/>
+  <text x="74" y="250" class="small">handler()</text>
+  <rect x="62" y="268" width="186" height="34" rx="8" fill="#93c5fd"/>
+  <text x="74" y="290" class="small">callback()</text>
+  <text x="58" y="334" class="note">Exécution synchrone (LIFO)</text>
+
+  <!-- Event loop center -->
+  <g transform="translate(600 330)">
+    <circle r="170" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+    <circle r="110" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="-66" y="6" class="label">Event Loop</text>
+
+    <path d="M -120 0 A 120 120 0 1 1 95 74" fill="none" stroke="#2563eb" stroke-width="10" stroke-linecap="round"/>
+    <polygon points="108,78 76,84 92,56" fill="#2563eb"/>
+
+    <text x="-154" y="-128" class="phase">1. timers</text>
+    <text x="48" y="-132" class="phase">2. pending callbacks</text>
+    <text x="74" y="-12" class="phase">3. poll (I/O)</text>
+    <text x="46" y="118" class="phase">4. check (setImmediate)</text>
+    <text x="-156" y="122" class="phase">5. close callbacks</text>
+  </g>
+
+  <!-- Queues right -->
+  <rect x="900" y="130" width="260" height="110" rx="14" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+  <text x="918" y="162" class="label">Microtasks Queue</text>
+  <text x="918" y="186" class="small">Promise.then / catch / finally</text>
+  <text x="918" y="208" class="small">queueMicrotask, process.nextTick*</text>
+
+  <rect x="900" y="260" width="260" height="110" rx="14" fill="#ecfeff" stroke="#67e8f9" stroke-width="2"/>
+  <text x="918" y="292" class="label">Macrotasks / Callbacks</text>
+  <text x="918" y="316" class="small">setTimeout, setInterval</text>
+  <text x="918" y="338" class="small">I/O callbacks, setImmediate</text>
+
+  <rect x="900" y="390" width="260" height="130" rx="14" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="918" y="422" class="label">libuv + OS</text>
+  <text x="918" y="446" class="small">réseau, disque, DNS, timers</text>
+  <text x="918" y="468" class="small">thread pool pour tâches bloquantes</text>
+  <text x="918" y="490" class="small">retour des événements vers la loop</text>
+
+  <!-- Arrows -->
+  <line x1="270" y1="244" x2="415" y2="244" stroke="#4a5568" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="285" y="232" class="note">push/pop</text>
+
+  <line x1="770" y1="212" x2="900" y2="184" stroke="#4a5568" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="782" y="178" class="note">drain en priorité</text>
+
+  <line x1="770" y1="300" x2="900" y2="314" stroke="#4a5568" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="786" y="286" class="note">callbacks prêts</text>
+
+  <line x1="770" y1="388" x2="900" y2="430" stroke="#4a5568" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="788" y="406" class="note">attente I/O</text>
+
+  <line x1="900" y1="494" x2="770" y2="448" stroke="#4a5568" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="792" y="474" class="note">événements terminés</text>
+
+  <!-- Bottom notes -->
+  <rect x="40" y="570" width="1120" height="150" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="62" y="603" class="label">Règles essentielles</text>
+  <text x="62" y="630" class="small">- Le JavaScript Node.js s'exécute sur un thread principal : évite le CPU lourd bloquant.</text>
+  <text x="62" y="654" class="small">- Après chaque callback, Node vide d'abord les microtasks (Promises / nextTick) avant de continuer la loop.</text>
+  <text x="62" y="678" class="small">- Les opérations I/O sont déléguées à libuv / OS puis réinjectées quand elles sont prêtes.</text>
+  <text x="62" y="702" class="small">* process.nextTick est spécifique à Node.js et s'exécute avant les autres microtasks standards.</text>
+</svg>

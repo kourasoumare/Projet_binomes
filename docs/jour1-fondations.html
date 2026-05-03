@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 1 - Fondations Node.js</title>
+<style>
+@page{margin:20mm 18mm;size:A4}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#2d3436;line-height:1.7;max-width:820px;margin:0 auto;padding:24px 22px 56px}
+h1{font-size:1.6rem;color:#0984e3;border-bottom:2px solid #74b9ff;padding-bottom:8px;margin:24px 0 16px}
+h2{font-size:1.25rem;color:#2d3436;margin:26px 0 12px;padding-bottom:4px;border-bottom:1px solid #dfe6e9}
+h3{font-size:1.05rem;color:#636e72;margin:18px 0 8px}
+p{margin:8px 0}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+code{background:#f1f2f6;padding:1px 5px;border-radius:3px;font-family:"SF Mono",Monaco,Consolas,"Liberation Mono",monospace;font-size:.88em}
+pre{background:#2d3436;color:#dfe6e9;padding:14px 18px;border-radius:8px;overflow-x:auto;font-size:.83rem;line-height:1.5;margin:10px 0}
+pre code{background:none;padding:0;color:inherit}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #dfe6e9;padding:8px 10px;text-align:left;font-size:.9rem}
+th{background:#f1f2f6}
+.header-bar{background:#0984e3;color:#fff;padding:12px 18px;border-radius:8px;margin-bottom:20px;font-size:.85rem}
+.header-bar strong{color:#fff}
+.top-links{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.top-links a{text-decoration:none;background:#f1f2f6;color:#2d3436;padding:8px 10px;border-radius:8px;font-size:.88rem}
+.top-links a:hover{background:#e5e7eb}
+.check{background:#f8f9fa;border-left:4px solid #74b9ff;padding:10px 12px;margin:10px 0}
+.schema-wrap{background:#fff;border:1px solid #dfe6e9;border-radius:10px;padding:12px;margin:12px 0}
+.schema-wrap img{display:block;max-width:100%;height:auto;border-radius:8px}
+.callout{background:#f8f9fa;border-left:4px solid #0984e3;padding:10px 12px;margin:10px 0}
+.term{position:relative;border-bottom:1px dotted #0b63b7;cursor:help;font-weight:600}
+.term:focus{outline:2px solid #93c5fd;outline-offset:2px}
+.term:hover::after,.term:focus::after{content:attr(data-def);position:absolute;left:0;top:calc(100% + 6px);width:280px;background:#111827;color:#f9fafb;padding:8px 10px;border-radius:8px;font-size:.78rem;font-weight:500;line-height:1.35;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+</style>
+</head>
+<body>
+<div class="header-bar"><strong>Node.js Niveau I - Jour 1</strong></div>
+<div class="top-links">
+  <a href="index.html">← Accueil cours</a>
+  <a href="plan-de-cours.html">Plan détaillé</a>
+  <a href="jour2-api-express.html">Aller au Jour 2 →</a>
+</div>
+<h1>Jour 1 - Fondations Node.js et CLI gamifiée</h1>
+<p><strong>Objectif du jour</strong> : comprendre Node.js, maîtriser les bases JavaScript côté serveur, puis livrer une version CLI d'un mini-jeu.</p>
+<p><strong>Fil rouge gamifié</strong> : <code>Campus Quest</code>, un jeu de quêtes avec XP et niveaux.</p>
+<p>Les mots soulignés sont définis au survol (ou au focus clavier).</p>
+
+<h2>1. Introduction historique de Node.js</h2>
+<p>Node.js apparaît en 2009 avec une idée simple : utiliser JavaScript sur le serveur pour gérer efficacement les opérations d'entrée/sortie (réseau, fichiers, API).</p>
+<ul>
+<li><strong>2009</strong> : premières versions, centrées sur la performance <span class="term" tabindex="0" data-def="I/O signifie Input/Output : les opérations d'entrée/sortie (fichiers, réseau, disque, terminal).">I/O</span>.</li>
+<li><strong>2010</strong> : npm accélère l'écosystème et le partage de packages.</li>
+<li><strong>Aujourd'hui</strong> : <span class="term" tabindex="0" data-def="Runtime : programme qui exécute un langage. Node.js est le runtime JavaScript côté serveur.">runtime</span> mature, versions LTS stables, usage massif en production.</li>
+</ul>
+
+<h2>2. Briques techniques qui composent Node.js</h2>
+<table>
+<thead><tr><th>Brique</th><th>Rôle</th></tr></thead>
+<tbody>
+<tr><td>V8</td><td>Exécute le JavaScript et l'optimise.</td></tr>
+<tr><td>libuv</td><td>Gère l'<span class="term" tabindex="0" data-def="Boucle d'événements qui planifie l'exécution des callbacks asynchrones.">event loop</span>, les I/O non bloquantes et le <span class="term" tabindex="0" data-def="Groupe de threads utilisés pour certaines tâches coûteuses (ex: fs, crypto).">thread pool</span>.</td></tr>
+<tr><td>APIs Node natives</td><td>Accès système : fichiers, HTTP, réseau, streams, crypto.</td></tr>
+<tr><td>Système de modules</td><td>Structure du code avec CommonJS ou ESM.</td></tr>
+<tr><td>npm</td><td>Gestion des dépendances et scripts d'automatisation.</td></tr>
+</tbody>
+</table>
+
+<h2>3. Installation et vérification</h2>
+<h3>Étape 1 - Vérifier l'environnement</h3>
+<pre><code>node -v
+npm -v</code></pre>
+<p>Le but est de confirmer que Node.js et npm sont disponibles avant toute création de projet.</p>
+
+<h3>Étape 2 - Initialiser le projet</h3>
+<pre><code>mkdir campus-quest
+cd campus-quest
+npm init -y</code></pre>
+<p>Le fichier <code>package.json</code> est le cœur du projet : métadonnées, scripts et dépendances.</p>
+
+<h3>Étape 3 - Comprendre le package.json généré</h3>
+<p>Après <code>npm init -y</code>, vous obtenez un fichier de base (exemple) :</p>
+<pre><code>{
+  "name": "campus-quest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" &amp;&amp; exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}</code></pre>
+
+<h3>Étape 4 - Configurer le minimum pour ce cours</h3>
+<pre><code>npm pkg set type=module
+npm pkg set scripts.start=\"node src/index.js\"
+npm pkg set scripts.dev=\"node --watch src/index.js\"</code></pre>
+<p>Le champ <code>type: "module"</code> est nécessaire pour utiliser <code>import</code> dans les exemples du cours.</p>
+
+<h3>Étape 5 - Créer le point d'entrée et lancer</h3>
+<pre><code>mkdir src
+echo "console.log('Campus Quest démarre');" > src/index.js
+npm start</code></pre>
+
+<h3>Étape 6 - package.json minimal attendu</h3>
+<pre><code>{
+  "name": "campus-quest",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  }
+}</code></pre>
+
+<h2>4. Comprendre Node.js simplement</h2>
+<h3>Concepts à retenir</h3>
+<ul>
+<li>Node.js exécute JavaScript hors navigateur.</li>
+<li>Node.js est adapté aux applications <span class="term" tabindex="0" data-def="Entrées/sorties : fichiers, réseau, APIs externes, base de données.">I/O</span> (fichiers, réseau, API).</li>
+<li>L'<span class="term" tabindex="0" data-def="Mécanisme qui décide quand exécuter les tâches asynchrones prêtes.">event loop</span> gère les opérations asynchrones sans bloquer l'exécution.</li>
+</ul>
+
+<h3>Point fondamental : comprendre l'event loop</h3>
+<p>L'event loop est le mécanisme central de Node.js : elle orchestre ce qui s'exécute maintenant (<span class="term" tabindex="0" data-def="Pile d'exécution synchrone : fonctions exécutées immédiatement, une à la fois.">call stack</span>) et ce qui s'exécutera plus tard (callbacks, timers, I/O, <span class="term" tabindex="0" data-def="Tâches prioritaires exécutées juste après le synchrone (Promises, nextTick).">microtasks</span>). Sans ce modèle, il est impossible de comprendre pourquoi un serveur Node reste réactif sous charge I/O.</p>
+
+<div class="schema-wrap">
+  <img src="assets/event-loop-nodejs.svg" alt="Schéma pédagogique de l'event loop Node.js">
+</div>
+
+<h3>Comment lire ce schéma</h3>
+<ol>
+<li><strong><span class="term" tabindex="0" data-def="Pile des appels de fonctions synchrones en cours d'exécution.">Call Stack</span></strong> : le code synchrone s'exécute ici, une fonction à la fois.</li>
+<li><strong>libuv + OS</strong> : les tâches I/O (fichier, réseau, DNS) sont déléguées hors du thread principal.</li>
+<li><strong><span class="term" tabindex="0" data-def="Boucle qui parcourt les files d'événements et déclenche les callbacks prêts.">Event Loop</span></strong> : elle récupère les callbacks prêts et les injecte dans la stack.</li>
+<li><strong><span class="term" tabindex="0" data-def="File de tâches très prioritaire : Promise.then, queueMicrotask, process.nextTick.">Microtasks</span></strong> : après chaque callback, Node traite d'abord Promises et <code>process.nextTick</code>.</li>
+</ol>
+
+<h3>Ordre d'exécution à connaître</h3>
+<pre><code>console.log("A");
+setTimeout(() => console.log("B timeout"), 0);
+Promise.resolve().then(() => console.log("C promise"));
+console.log("D");
+
+// Résultat :
+// A
+// D
+// C promise
+// B timeout</code></pre>
+<p><strong>Pourquoi ?</strong> Le synchrone passe d'abord (<code>A</code>, <code>D</code>), puis les microtasks (Promise), puis les <span class="term" tabindex="0" data-def="Tâches planifiées ensuite, par exemple setTimeout et setInterval.">macrotasks</span> (timeout).</p>
+
+<h3>Piège classique : bloquer la boucle</h3>
+<pre><code>const start = Date.now();
+while (Date.now() - start &lt; 3000) {
+  // boucle CPU bloquante
+}
+console.log("Fin");</code></pre>
+<p>Pendant cette boucle, Node ne peut pas traiter les autres requêtes : le serveur devient lent ou indisponible.</p>
+
+<div class="callout">
+<p><strong>Bonnes pratiques immédiates</strong></p>
+<ul>
+<li>Éviter les calculs CPU lourds sur le thread principal.</li>
+<li>Privilégier les APIs asynchrones (<code>fs/promises</code>, appels réseau async).</li>
+<li>Découper les traitements longs en tâches plus petites.</li>
+<li>Pour le CPU intensif, envisager <code>worker_threads</code> ou un service séparé.</li>
+</ul>
+</div>
+
+<h2>5. Exemples</h2>
+<h3>Exemple 1 - Lecture JSON simple</h3>
+<pre><code>import { readFile } from "node:fs/promises";
+
+const raw = await readFile("./data/players.json", "utf8");
+const players = JSON.parse(raw);
+console.log("Nombre de joueurs:", players.length);</code></pre>
+
+<h3>Exemple 2 - Lecture de fichier + calcul de moyenne</h3>
+<p>Fichier <code>scores.csv</code> attendu :</p>
+<pre><code>pseudo;score
+alice;12
+bob;18
+chris;10</code></pre>
+<pre><code>import { readFile } from "node:fs/promises";
+
+const csv = await readFile("./data/scores.csv", "utf8");
+const lines = csv.trim().split("\n").slice(1);
+const scores = lines.map(line => Number(line.split(";")[1]));
+const moyenne = scores.reduce((acc, n) => acc + n, 0) / scores.length;
+console.log("Moyenne:", moyenne.toFixed(2));</code></pre>
+
+<h3>Exemple 3 - Statistiques simples (min, max, moyenne)</h3>
+<pre><code>function stats(values) {
+  const total = values.reduce((acc, n) => acc + n, 0);
+  return {
+    min: Math.min(...values),
+    max: Math.max(...values),
+    avg: total / values.length
+  };
+}
+
+console.log(stats([12, 18, 10, 16]));</code></pre>
+
+<h3>Exemple 4 - Gestion d'erreur fichier absent</h3>
+<pre><code>import { readFile } from "node:fs/promises";
+
+async function readJsonSafe(path) {
+  try {
+    const raw = await readFile(path, "utf8");
+    return JSON.parse(raw);
+  } catch (err) {
+    if (err.code === "ENOENT") return [];
+    throw err;
+  }
+}</code></pre>
+
+<h2>6. Structurer Campus Quest (CLI)</h2>
+<h3>Arborescence cible</h3>
+<pre><code>campus-quest/
+  package.json
+  src/
+    cli.js
+    store.js
+    game-service.js
+  data/
+    players.json
+    quests.json</code></pre>
+
+<h3>Fonctions à implémenter</h3>
+<ul>
+<li><code>createPlayer(pseudo)</code></li>
+<li><code>acceptQuest(playerId, questId)</code></li>
+<li><code>completeQuest(playerId, questId)</code></li>
+<li><code>showStats(playerId)</code></li>
+</ul>
+
+<h2>7. Exercices progressifs</h2>
+<h3>Niveau 1 - Mise en route technique</h3>
+<table>
+<thead><tr><th>Exercice</th><th>Consigne</th><th>Validation attendue</th></tr></thead>
+<tbody>
+<tr><td>1.1</td><td>Créer <code>players.json</code> et <code>quests.json</code> avec données initiales cohérentes.</td><td>Les deux fichiers sont parsés sans erreur JSON.</td></tr>
+<tr><td>1.2</td><td>Écrire <code>loadJson(path)</code> et <code>saveJson(path, data)</code>.</td><td>Lecture/écriture testées sur les deux fichiers.</td></tr>
+<tr><td>1.3</td><td>Gérer le cas fichier absent : retourner un tableau vide.</td><td>Aucune exception non gérée.</td></tr>
+<tr><td>1.4</td><td>Normaliser les pseudos (trim + unicité).</td><td>Impossible de créer deux pseudos équivalents.</td></tr>
+</tbody>
+</table>
+
+<h3>Niveau 2 - Logique métier</h3>
+<table>
+<thead><tr><th>Exercice</th><th>Consigne</th><th>Compétence visée</th></tr></thead>
+<tbody>
+<tr><td>2.1</td><td>Coder <code>createPlayer(pseudo)</code> avec validations complètes.</td><td>Validation d'entrée</td></tr>
+<tr><td>2.2</td><td>Coder <code>acceptQuest(playerId, questId)</code> avec contrôle d'existence.</td><td>Référentiel métier</td></tr>
+<tr><td>2.3</td><td>Coder <code>completeQuest</code> et incrémenter XP selon difficulté.</td><td>Règles de calcul</td></tr>
+<tr><td>2.4</td><td>Calculer <code>level</code> à partir de XP.</td><td>Conditions + fonctions</td></tr>
+<tr><td>2.5</td><td>Empêcher la validation d'une même quête deux fois.</td><td>Intégrité des données</td></tr>
+</tbody>
+</table>
+
+<h3>Niveau 3 - Robustesse CLI</h3>
+<ol>
+<li>Afficher une aide complète si la commande est inconnue.</li>
+<li>Valider le format de chaque argument CLI.</li>
+<li>Retourner un code de sortie non nul en cas d'erreur d'usage.</li>
+<li>Ajouter des messages de succès homogènes.</li>
+</ol>
+
+<div class="callout">
+<p><strong>Barème conseillé (auto-évaluation)</strong></p>
+<ul>
+<li>Technique : 10 points</li>
+<li>Qualité : 5 points</li>
+<li>Fiabilité : 5 points</li>
+</ul>
+</div>
+
+<h2>8. Défis gamifiés du jour</h2>
+<table>
+<thead><tr><th>Défi</th><th>Objectif</th><th>Points</th></tr></thead>
+<tbody>
+<tr><td>Défi 1</td><td>Créer un joueur et l'enregistrer en JSON</td><td>3</td></tr>
+<tr><td>Défi 2</td><td>Ajouter une quête avec difficulté</td><td>4</td></tr>
+<tr><td>Défi 3</td><td>Compléter une quête et ajouter l'XP</td><td>6</td></tr>
+<tr><td>Défi bonus</td><td>Afficher un niveau calculé depuis l'XP</td><td>2</td></tr>
+</tbody>
+</table>
+<p><strong>Système de rang</strong> : Bronze (0-6), Argent (7-11), Or (12+).</p>
+
+<h2>9. Mini-projet de fin de Jour 1</h2>
+<p>Livrer une CLI Campus Quest utilisable par une autre personne de la classe avec ce scénario :</p>
+<ol>
+<li>Créer un joueur</li>
+<li>Lui attribuer 2 quêtes</li>
+<li>Valider une quête</li>
+<li>Afficher son profil + leaderboard</li>
+</ol>
+<p><strong>Critères de réussite</strong></p>
+<ul>
+<li>Le scénario fonctionne sans modifier le code pendant la démo.</li>
+<li>Les erreurs utilisateur sont correctement gérées.</li>
+<li>Le code est découpé en modules (store, service, cli).</li>
+<li>Le fichier JSON reste valide après 20 exécutions successives.</li>
+</ul>
+
+<h2>10. Checklist de fin de journée</h2>
+<div class="check">
+<p>Vérifier avant de passer au Jour 2 :</p>
+<ul>
+<li>Le projet se lance avec <code>npm start</code>.</li>
+<li>Les commandes CLI principales fonctionnent.</li>
+<li>Les données JSON sont mises à jour correctement.</li>
+<li>Les erreurs d'usage affichent une aide claire.</li>
+</ul>
+</div>
+
+<h2>11. Glossaire</h2>
+<table>
+<thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+<tbody>
+<tr><td>Runtime</td><td>Programme qui exécute un langage (Node.js exécute JavaScript).</td></tr>
+<tr><td>I/O</td><td>Entrées/sorties : fichiers, réseau, terminal, disque.</td></tr>
+<tr><td>Event loop</td><td>Boucle qui orchestre les tâches asynchrones en Node.js.</td></tr>
+<tr><td>Call stack</td><td>Pile d'exécution synchrone des fonctions.</td></tr>
+<tr><td>Microtask</td><td>Tâche prioritaire exécutée après le synchrone (ex: Promise).</td></tr>
+<tr><td>Macrotask</td><td>Tâche exécutée ensuite (ex: setTimeout).</td></tr>
+<tr><td>Thread pool</td><td>Pool de threads utilisé par libuv pour certaines opérations.</td></tr>
+<tr><td>ESM</td><td>Système de modules JavaScript moderne basé sur <code>import/export</code>.</td></tr>
+<tr><td>CLI</td><td>Command Line Interface : interface via terminal.</td></tr>
+<tr><td>JSON</td><td>Format texte structuré utilisé pour stocker/échanger des données.</td></tr>
+</tbody>
+</table>
+
+<div class="top-links">
+  <a href="index.html">← Accueil cours</a>
+  <a href="jour2-api-express.html">Jour 2 - API Express →</a>
+</div>
+</body>
+</html>
