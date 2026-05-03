@@ -176,9 +176,9 @@ console.log("D");
 <p><strong>Note Node.js</strong> : <code>process.nextTick(...)</code> est encore prioritaire (file spéciale) et passe avant les microtasks Promise.</p>
 <h3>Illustration : un tour de boucle</h3>
 <div class="schema-wrap">
-  <img src="assets/event-loop-tour-boucle.svg" alt="Schema d un tour de boucle event loop">
+  <img src="assets/event-loop-tour-boucle.svg" alt="Schéma d'un tour de boucle event loop">
 </div>
-<p>Lecture rapide : a chaque tour, Node prend une tache prete, execute son callback, vide les microtasks, puis passe au tour suivant. La duree n est pas fixe.</p>
+<p>Lecture rapide : à chaque tour, Node prend une tâche prête, exécute son callback, vide les microtasks, puis passe au tour suivant. La durée n'est pas fixe.</p>
 
 <h3>Piège classique : bloquer la boucle</h3>
 <pre><code>const start = Date.now();

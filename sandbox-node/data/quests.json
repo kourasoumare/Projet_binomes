@@ -4,8 +4,8 @@
     "type": "enigme",
     "title": "Const et reassignment",
     "difficulty": "easy",
-    "question": "Je suis declare avec const. Puis-je etre reassigne ?",
-    "hint": "Repondre par oui ou non.",
+    "question": "Je suis déclaré avec const. Puis-je être réassigné ?",
+    "hint": "Répondre par oui ou non.",
     "answer": "non",
     "xp": 20
   },
@@ -22,9 +22,9 @@
   {
     "id": "q-api-003",
     "type": "enigme",
-    "title": "Creation d'une ressource HTTP",
+    "title": "Création d'une ressource HTTP",
     "difficulty": "medium",
-    "question": "Quel verbe HTTP utilise-t-on pour creer une ressource ?",
+    "question": "Quel verbe HTTP utilise-t-on pour créer une ressource ?",
     "hint": "4 lettres en majuscule.",
     "answer": "post",
     "xp": 30
@@ -42,9 +42,9 @@
   {
     "id": "q-archi-005",
     "type": "enigme",
-    "title": "Role de store.js",
+    "title": "Rôle de store.js",
     "difficulty": "hard",
-    "question": "Quel fichier du projet gere la lecture/ecriture JSON ?",
+    "question": "Quel fichier du projet gère la lecture/écriture JSON ?",
     "hint": "Il est dans src.",
     "answer": "store.js",
     "xp": 40
