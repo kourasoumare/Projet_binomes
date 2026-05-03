@@ -125,6 +125,16 @@ console.log(avg.toFixed(2));</code></pre>
     </section>
 
     <section>
+      <h2>cli.js : exemple minimal</h2>
+      <pre><code class="language-js">const [, , command, name] = process.argv;
+
+if (command === "hello") console.log(`Bonjour ${name ?? "inconnu"}`);
+else if (command === "help" || !command) console.log("Usage: node src/cli.js hello &lt;prenom&gt;");
+else { console.log(`Commande inconnue: ${command}`); process.exitCode = 1; }</code></pre>
+      <p class="small">Idée clé : lire les arguments, choisir la commande, afficher un résultat.</p>
+    </section>
+
+    <section>
       <h2>Exercices progressifs</h2>
       <div class="grid">
         <div class="card"><strong>Niveau 1</strong><p class="small">Store JSON + helpers</p></div>

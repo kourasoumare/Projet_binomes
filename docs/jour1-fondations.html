@@ -259,6 +259,24 @@ async function readJsonSafe(path) {
 <li><code>showStats(playerId)</code></li>
 </ul>
 
+<h3>Exemple simple guidé : premier <code>cli.js</code></h3>
+<p>Objectif : comprendre le rôle de <code>cli.js</code> avant la version complète Campus Quest.</p>
+<pre><code>const [, , command, name] = process.argv;
+
+if (command === "hello") {
+  console.log(`Bonjour ${name ?? "inconnu"}`);
+} else if (command === "help" || !command) {
+  console.log("Usage: node src/cli.js hello &lt;prenom&gt;");
+} else {
+  console.log(`Commande inconnue: ${command}`);
+  process.exitCode = 1;
+}</code></pre>
+<p>Test rapide :</p>
+<pre><code>node src/cli.js help
+node src/cli.js hello Alice
+node src/cli.js test</code></pre>
+<p>Ce pattern (lire <code>process.argv</code> → router la commande → afficher le résultat) est exactement celui de Campus Quest.</p>
+
 <h2>7. Exercices progressifs</h2>
 <h3>Niveau 1 - Mise en route technique</h3>
 <table>
