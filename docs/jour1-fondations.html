@@ -213,6 +213,15 @@ console.log("Fin sync");
 const raw = await readFile("./data/players.json", "utf8");
 const players = JSON.parse(raw);
 console.log("Nombre de joueurs:", players.length);</code></pre>
+<div class="callout">
+<p><strong>Note importante : <code>import.meta.url</code></strong></p>
+<p><code>./data/players.json</code> dépend du dossier courant d'exécution. Pour un chemin fiable (local, Docker, script npm), basez-vous sur le fichier courant :</p>
+<pre><code>import { readFile } from "node:fs/promises";
+
+const playersPath = new URL("../data/players.json", import.meta.url);
+const raw = await readFile(playersPath, "utf8");</code></pre>
+<p><code>import.meta.url</code> = URL du module en cours (équivalent robuste de <code>__dirname</code> en ESM).</p>
+</div>
 
 <h3>Exemple 2 - Lecture de fichier + calcul de moyenne</h3>
 <p>Fichier <code>scores.csv</code> attendu :</p>
