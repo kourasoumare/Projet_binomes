@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "description": "Sandbox Docker prêt à l'emploi pour le cours Node.js",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node src/server.js"
   },
   "dependencies": {
     "express": "^4.19.2"

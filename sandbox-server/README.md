@@ -1,4 +1,4 @@
-# Sandbox Docker - Node.js
+# Sandbox Docker - Node.js (JSON Hello)
 
 ## Lancement
 
@@ -10,8 +10,12 @@ docker compose up -d --build
 
 ```bash
 curl http://localhost:3000/
-curl http://localhost:3000/health
-curl http://localhost:3000/version
+```
+
+Réponse attendue:
+
+```json
+{"hello":"world"}
 ```
 
 ## Arrêt

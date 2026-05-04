@@ -16,4 +16,4 @@ ENV NODE_ENV=development
 EXPOSE 3000
 
 # Watch natif Node 20+
-CMD ["node", "--watch", "server.js"]
+CMD ["node", "--watch", "src/server.js"]
