@@ -97,7 +97,8 @@ npm pkg set scripts.dev=\"node --watch src/index.js\"</code></pre>
       <h2>Exemple 1 - Lecture JSON</h2>
       <pre><code class="language-js">import { readFile } from "node:fs/promises";
 
-const raw = await readFile("./data/players.json", "utf8");
+const playersPath = new URL("../data/players.json", import.meta.url);
+const raw = await readFile(playersPath, "utf8");
 const players = JSON.parse(raw);
 console.log(players.length);</code></pre>
       <p class="small"><code>node:</code> = module natif Node.js, pour éviter la confusion avec un package npm.</p>
@@ -126,21 +127,21 @@ console.log(avg.toFixed(2));</code></pre>
     </section>
 
     <section>
-      <h2>C'est quoi Campus Quest ?</h2>
+      <h2>C'est quoi sandbox-server ?</h2>
       <div class="card">
-        <p>Un mini-jeu CLI avec stockage JSON :</p>
+        <p>Une API JSON minimale avec Express :</p>
         <ol>
-          <li>Créer un joueur</li>
-          <li>Accepter une quête</li>
-          <li>Valider une quête (gain d'XP)</li>
-          <li>Afficher stats + classement</li>
+          <li>Démarrer le serveur Node.js</li>
+          <li>Créer des routes HTTP</li>
+          <li>Retourner des réponses JSON propres</li>
+          <li>Tester les endpoints avec un client API</li>
         </ol>
       </div>
       <div class="card" style="margin-top:12px">
-        <p><strong>Une quête = une mission</strong> avec <code>id</code>, <code>title</code>, <code>difficulty</code>, <code>xp</code>.</p>
-        <p class="small">Exemple : <code>q-intro-io</code> "Lire un fichier JSON" vaut 20 XP.</p>
+        <p><strong>Une route API</strong> = une URL + une méthode HTTP + une réponse JSON.</p>
+        <p class="small">Exemple : <code>GET /health</code> renvoie <code>{ "status": "ok" }</code>.</p>
       </div>
-      <p class="small">Livrable J1 : une CLI exécutable de bout en bout sans modifier le code pendant la démo.</p>
+      <p class="small">Livrable J1 : une API JSON exécutable de bout en bout dans <code>sandbox-server</code>.</p>
     </section>
 
     <section>
