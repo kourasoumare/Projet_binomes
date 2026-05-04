@@ -1,30 +1,34 @@
 /* Theme toggle for course pages (docs/*.html, excluding slides) */
 :root {
-  --bg: #f5f6fa;
+  --bg: #fafafa;
   --surface: #ffffff;
-  --text: #2d3436;
-  --muted: #636e72;
-  --border: #dfe6e9;
-  --link-bg: #f1f2f6;
-  --code-bg: #f1f2f6;
-  --pre-bg: #2d3436;
-  --pre-text: #dfe6e9;
-  --primary: #0984e3;
-  --primary-strong: #0b63b7;
+  --surface-soft: #f4f4f5;
+  --text: #09090b;
+  --muted: #52525b;
+  --border: #e4e4e7;
+  --link-bg: #f4f4f5;
+  --code-bg: #f4f4f5;
+  --pre-bg: #18181b;
+  --pre-text: #f4f4f5;
+  --primary: #2563eb;
+  --primary-strong: #1d4ed8;
+  --link: #1d4ed8;
 }
 
 html.theme-dark {
-  --bg: #0f172a;
+  --bg: #0b1220;
   --surface: #111827;
-  --text: #e5e7eb;
-  --muted: #93a4b8;
-  --border: #334155;
+  --surface-soft: #1f2937;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --border: #2b3a50;
   --link-bg: #1f2937;
   --code-bg: #1f2937;
   --pre-bg: #020617;
   --pre-text: #e2e8f0;
-  --primary: #2563eb;
-  --primary-strong: #1d4ed8;
+  --primary: #3b82f6;
+  --primary-strong: #2563eb;
+  --link: #93c5fd;
 }
 
 body {
@@ -32,12 +36,16 @@ body {
   color: var(--text) !important;
 }
 
-h1, h2, h3, p, li, td, th, a {
+h1, h2, h3, p, li, td, th, strong, blockquote {
   color: var(--text);
 }
 
 .subtitle {
   color: var(--muted) !important;
+}
+
+a {
+  color: var(--link);
 }
 
 code {
@@ -62,6 +70,20 @@ th {
   background: var(--link-bg) !important;
 }
 
+tr:nth-child(even) {
+  background: color-mix(in srgb, var(--surface) 92%, var(--bg)) !important;
+}
+
+blockquote {
+  background: var(--surface-soft) !important;
+  color: var(--muted) !important;
+  border-left-color: var(--primary) !important;
+}
+
+hr {
+  border-top-color: var(--border) !important;
+}
+
 .header-bar {
   background: var(--primary) !important;
 }
@@ -82,6 +104,7 @@ th {
 .box,
 .schema-wrap {
   background: var(--surface) !important;
+  color: var(--text) !important;
 }
 
 .top-links a:hover,
@@ -93,11 +116,17 @@ th {
 .check,
 .warn,
 .ok {
-  background: color-mix(in srgb, var(--surface) 90%, var(--bg)) !important;
+  background: var(--surface-soft) !important;
+  color: var(--text) !important;
 }
 
 .term {
   border-bottom-color: var(--primary) !important;
+}
+
+.header-bar,
+.header-bar strong {
+  color: #ffffff !important;
 }
 
 #theme-toggle {
