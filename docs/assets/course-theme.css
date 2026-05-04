@@ -1,0 +1,120 @@
+/* Theme toggle for course pages (docs/*.html, excluding slides) */
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --text: #2d3436;
+  --muted: #636e72;
+  --border: #dfe6e9;
+  --link-bg: #f1f2f6;
+  --code-bg: #f1f2f6;
+  --pre-bg: #2d3436;
+  --pre-text: #dfe6e9;
+  --primary: #0984e3;
+  --primary-strong: #0b63b7;
+}
+
+html.theme-dark {
+  --bg: #0f172a;
+  --surface: #111827;
+  --text: #e5e7eb;
+  --muted: #93a4b8;
+  --border: #334155;
+  --link-bg: #1f2937;
+  --code-bg: #1f2937;
+  --pre-bg: #020617;
+  --pre-text: #e2e8f0;
+  --primary: #2563eb;
+  --primary-strong: #1d4ed8;
+}
+
+body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+h1, h2, h3, p, li, td, th, a {
+  color: var(--text);
+}
+
+.subtitle {
+  color: var(--muted) !important;
+}
+
+code {
+  background: var(--code-bg) !important;
+  color: var(--text) !important;
+}
+
+pre {
+  background: var(--pre-bg) !important;
+  color: var(--pre-text) !important;
+}
+
+pre code {
+  color: inherit !important;
+}
+
+table, th, td {
+  border-color: var(--border) !important;
+}
+
+th {
+  background: var(--link-bg) !important;
+}
+
+.header-bar {
+  background: var(--primary) !important;
+}
+
+.top-links a,
+.link,
+.box,
+.callout,
+.check,
+.warn,
+.ok,
+.schema-wrap {
+  border-color: var(--border) !important;
+}
+
+.top-links a,
+.link,
+.box,
+.schema-wrap {
+  background: var(--surface) !important;
+}
+
+.top-links a:hover,
+.link:hover {
+  background: var(--link-bg) !important;
+}
+
+.callout,
+.check,
+.warn,
+.ok {
+  background: color-mix(in srgb, var(--surface) 90%, var(--bg)) !important;
+}
+
+.term {
+  border-bottom-color: var(--primary) !important;
+}
+
+#theme-toggle {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 9999;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 8px 11px;
+  border-radius: 999px;
+  font: 600 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(2, 6, 23, 0.18);
+}
+
+#theme-toggle:hover {
+  background: var(--link-bg);
+}

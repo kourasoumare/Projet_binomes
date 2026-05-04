@@ -34,6 +34,8 @@ th{background:#f1f2f6}
 .term:focus{outline:2px solid #93c5fd;outline-offset:2px}
 .term:hover::after,.term:focus::after{content:attr(data-def);position:absolute;left:0;top:calc(100% + 6px);width:280px;background:#111827;color:#f9fafb;padding:8px 10px;border-radius:8px;font-size:.78rem;font-weight:500;line-height:1.35;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.2)}
 </style>
+<link rel="stylesheet" href="assets/course-theme.css">
+<script defer src="assets/course-theme.js"></script>
 </head>
 <body>
 <div class="header-bar"><strong>Node.js Niveau I - Module Docker</strong></div>
@@ -120,20 +122,74 @@ docker run hello-world</code></pre>
 <tr>
   <td><code>sandbox-node</code></td>
   <td>Exécuter des scripts Node.js (CLI) dans le <span class="term" tabindex="0" data-def="Programme qui exécute JavaScript côté serveur, ici Node.js.">runtime</span> Node, sans serveur HTTP.</td>
-  <td><code>docs/nodejs-niveau-1/sandbox-node</code></td>
+  <td><code>sandbox-node</code></td>
 </tr>
 <tr>
   <td><code>sandbox-server</code></td>
   <td>Exécuter une API Express conteneurisée et tester des routes HTTP.</td>
-  <td><code>docs/nodejs-niveau-1/sandbox-server</code></td>
+  <td><code>sandbox-server</code></td>
 </tr>
 </tbody>
 </table>
 
+<h3>7.1 Exemple complet : <code>sandbox-node</code> (CLI)</h3>
+<p>Fichiers réels utilisés pour la configuration CLI :</p>
+<pre><code># sandbox-node/Dockerfile
+FROM node:24-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --omit=dev
+
+COPY . .
+
+CMD ["sh", "-c", "tail -f /dev/null"]</code></pre>
+<pre><code># sandbox-node/docker-compose.yml
+services:
+  node:
+    build: .
+    container_name: sandbox-node-cli
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "tail -f /dev/null"
+    stdin_open: true
+    tty: true</code></pre>
+
+<h3>7.2 Exemple complet : <code>sandbox-server</code> (API Express)</h3>
+<p>Fichiers réels utilisés pour la configuration serveur HTTP :</p>
+<pre><code># sandbox-server/Dockerfile
+FROM node:24-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --omit=dev
+
+COPY . .
+
+ENV NODE_ENV=production
+EXPOSE 3000
+
+CMD ["npm", "start"]</code></pre>
+<pre><code># sandbox-server/docker-compose.yml
+services:
+  app:
+    build: .
+    container_name: nodejs-docker-sandbox-app
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    restart: unless-stopped</code></pre>
+
 <h2>8. Configuration A : sandbox-node (scripts Node.js)</h2>
 <h3>8.1 Démarrer</h3>
 <pre><code># depuis la racine du projet
-cd docs/nodejs-niveau-1/sandbox-node
+cd sandbox-node
 docker compose up -d --build</code></pre>
 
 <h3>8.2 Lancer des commandes Node dans le conteneur</h3>
@@ -148,7 +204,7 @@ docker compose exec node npm start -- leaderboard</code></pre>
 <h2>9. Configuration B : sandbox-server (API Express)</h2>
 <h3>9.1 Démarrer</h3>
 <pre><code># depuis la racine du projet
-cd docs/nodejs-niveau-1/sandbox-server
+cd sandbox-server
 docker compose up -d --build</code></pre>
 
 <h3>9.2 Tester le serveur</h3>

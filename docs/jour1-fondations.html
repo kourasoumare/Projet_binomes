@@ -33,6 +33,8 @@ th{background:#f1f2f6}
 .term:focus{outline:2px solid #93c5fd;outline-offset:2px}
 .term:hover::after,.term:focus::after{content:attr(data-def);position:absolute;left:0;top:calc(100% + 6px);width:280px;background:#111827;color:#f9fafb;padding:8px 10px;border-radius:8px;font-size:.78rem;font-weight:500;line-height:1.35;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.2)}
 </style>
+<link rel="stylesheet" href="assets/course-theme.css">
+<script defer src="assets/course-theme.js"></script>
 </head>
 <body>
 <div class="header-bar"><strong>Node.js Niveau I - Jour 1</strong></div>
@@ -206,13 +208,17 @@ console.log("Fin sync");
 </ul>
 </div>
 
-<h2>5. Exemples</h2>
-<h3>Exemple 1 - Lecture JSON simple</h3>
+<h2>5. Exercices guidés (correction repliée)</h2>
+<h3>Exercice 1 - Lire un JSON</h3>
+<p><strong>Consigne</strong> : lire <code>players.json</code>, parser le JSON, afficher le nombre de joueurs.</p>
+<details>
+<summary>▶ Voir la correction</summary>
 <pre><code>import { readFile } from "node:fs/promises";
 
 const raw = await readFile("./data/players.json", "utf8");
 const players = JSON.parse(raw);
 console.log("Nombre de joueurs:", players.length);</code></pre>
+</details>
 <div class="callout">
 <p><strong>Note importante : <code>import.meta.url</code></strong></p>
 <p><code>./data/players.json</code> dépend du dossier courant d'exécution. Pour un chemin fiable (local, Docker, script npm), basez-vous sur le fichier courant :</p>
@@ -223,12 +229,15 @@ const raw = await readFile(playersPath, "utf8");</code></pre>
 <p><code>import.meta.url</code> = URL du module en cours (équivalent robuste de <code>__dirname</code> en ESM).</p>
 </div>
 
-<h3>Exemple 2 - Lecture de fichier + calcul de moyenne</h3>
+<h3>Exercice 2 - Lire un CSV et calculer une moyenne</h3>
+<p><strong>Consigne</strong> : à partir d'un fichier <code>scores.csv</code> (séparateur <code>;</code>), calculer la moyenne des scores.</p>
 <p>Fichier <code>scores.csv</code> attendu :</p>
 <pre><code>pseudo;score
 alice;12
 bob;18
 chris;10</code></pre>
+<details>
+<summary>▶ Voir la correction</summary>
 <pre><code>import { readFile } from "node:fs/promises";
 
 const csv = await readFile("./data/scores.csv", "utf8");
@@ -236,8 +245,12 @@ const lines = csv.trim().split("\n").slice(1);
 const scores = lines.map(line => Number(line.split(";")[1]));
 const moyenne = scores.reduce((acc, n) => acc + n, 0) / scores.length;
 console.log("Moyenne:", moyenne.toFixed(2));</code></pre>
+</details>
 
-<h3>Exemple 3 - Statistiques simples (min, max, moyenne)</h3>
+<h3>Exercice 3 - Écrire une fonction de stats</h3>
+<p><strong>Consigne</strong> : écrire une fonction <code>stats(values)</code> qui retourne <code>min</code>, <code>max</code> et <code>avg</code>.</p>
+<details>
+<summary>▶ Voir la correction</summary>
 <pre><code>function stats(values) {
   const total = values.reduce((acc, n) => acc + n, 0);
   return {
@@ -248,8 +261,12 @@ console.log("Moyenne:", moyenne.toFixed(2));</code></pre>
 }
 
 console.log(stats([12, 18, 10, 16]));</code></pre>
+</details>
 
-<h3>Exemple 4 - Gestion d'erreur fichier absent</h3>
+<h3>Exercice 4 - Gérer le fichier absent</h3>
+<p><strong>Consigne</strong> : créer une fonction qui lit un JSON et renvoie <code>[]</code> si le fichier n'existe pas.</p>
+<details>
+<summary>▶ Voir la correction</summary>
 <pre><code>import { readFile } from "node:fs/promises";
 
 async function readJsonSafe(path) {
@@ -261,6 +278,7 @@ async function readJsonSafe(path) {
     throw err;
   }
 }</code></pre>
+</details>
 
 <h2>6. Structurer Campus Quest (CLI)</h2>
 <h3>C'est quoi Campus Quest ?</h3>
