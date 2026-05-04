@@ -176,123 +176,44 @@ console.log("Fin sync");
 </div>
 
 
-<h2>5. Exercices guidés API (correction repliée)</h2>
-<h3>Exercice 1 - Route Hello JSON</h3>
-<p><strong>Consigne</strong> : implémenter <code>GET /</code> qui renvoie <code>{ "hello": "world" }</code>.</p>
-<details>
-<summary>▶ Voir la correction</summary>
-<pre><code>app.get("/", (_req, res) => {
-  res.status(200).json({ hello: "world" });
-});</code></pre>
-</details>
+<h2>5. Exercice unique - Campus Quest en REST API (sans CLI)</h2>
+<p><strong>Objectif</strong> : transformer le jeu Campus Quest en API REST tout en gardant la persistance des données en fichiers JSON dans <code>data/</code>.</p>
+<p><strong>Contrainte</strong> : aucune logique CLI, tout passe par des routes HTTP JSON.</p>
 
-<h3>Exercice 2 - Route de santé</h3>
-<p><strong>Consigne</strong> : créer <code>GET /health</code> pour vérifier que le service tourne.</p>
-<details>
-<summary>▶ Voir la correction</summary>
-<pre><code>app.get("/health", (_req, res) => {
-  res.status(200).json({
-    status: "ok",
-    timestamp: new Date().toISOString()
-  });
-});</code></pre>
-</details>
-
-<h3>Exercice 3 - Paramètre dynamique</h3>
-<p><strong>Consigne</strong> : créer <code>GET /hello/:name</code> qui répond <code>{ "hello": "Alice" }</code> quand l'URL est <code>/hello/Alice</code>.</p>
-<details>
-<summary>▶ Voir la correction</summary>
-<pre><code>app.get("/hello/:name", (req, res) => {
-  const { name } = req.params;
-  res.status(200).json({ hello: name });
-});</code></pre>
-</details>
-
-<h3>Exercice 4 - Réponse 404 JSON</h3>
-<p><strong>Consigne</strong> : retourner un JSON explicite quand la route n'existe pas.</p>
-<details>
-<summary>▶ Voir la correction</summary>
-<pre><code>app.use((_req, res) => {
-  res.status(404).json({ error: "Route not found" });
-});</code></pre>
-</details>
-
-<h2>6. Structurer la sandbox-server</h2>
-<h3>Arborescence cible</h3>
+<h3>Structure minimale attendue</h3>
 <pre><code>sandbox-server/
-  docker-compose.yml
-  Dockerfile
-  package.json
   src/
-    server.js</code></pre>
+    server.js
+  data/
+    players.json
+    enigmes.json
+    attempts.json</code></pre>
 
-<h3>Rôle de chaque fichier</h3>
-<ul>
-<li><code>docker-compose.yml</code> : décrit le service, les ports et le volume de code.</li>
-<li><code>Dockerfile</code> : construit l'image Node.js de développement.</li>
-<li><code>package.json</code> : dépendances et métadonnées du projet.</li>
-<li><code>src/server.js</code> : routes HTTP et logique de réponse JSON.</li>
-</ul>
-
-<div class="callout">
-<p><strong>Règle d'architecture</strong> : tout ce qui concerne HTTP vit dans <code>src/server.js</code> (routes, statuts, payload JSON).</p>
-</div>
-
-<h2>7. Exercices progressifs</h2>
-<p>Objectif : avancer par toutes petites étapes, valider chaque point, puis passer au suivant.</p>
-
-<h3>Mini-exos (très progressifs)</h3>
-<table>
-<thead><tr><th>Exo</th><th>Consigne</th><th>Résultat attendu</th></tr></thead>
-<tbody>
-<tr><td>7.1</td><td>Démarrer le serveur et vérifier qu'il écoute sur le port <code>3000</code>.</td><td>Le serveur tourne sans erreur.</td></tr>
-<tr><td>7.2</td><td>Créer la route <code>GET /</code>.</td><td>Réponse <code>200</code> avec <code>{"hello":"world"}</code>.</td></tr>
-<tr><td>7.3</td><td>Créer la route <code>GET /health</code>.</td><td>Réponse <code>200</code> avec <code>{"status":"ok"}</code>.</td></tr>
-<tr><td>7.4</td><td>Ajouter un champ <code>timestamp</code> dans <code>/health</code>.</td><td>JSON avec une date ISO valide.</td></tr>
-<tr><td>7.5</td><td>Créer <code>GET /hello/:name</code>.</td><td><code>/hello/Ada</code> renvoie <code>{"hello":"Ada"}</code>.</td></tr>
-<tr><td>7.6</td><td>Si <code>:name</code> est vide ou invalide, renvoyer une erreur claire.</td><td>Réponse <code>400</code> JSON avec message d'erreur.</td></tr>
-<tr><td>7.7</td><td>Ajouter un fallback pour les routes inconnues.</td><td>Réponse <code>404</code> JSON homogène.</td></tr>
-<tr><td>7.8</td><td>Uniformiser toutes les réponses d'erreur sous la forme <code>{"error":"..."}</code>.</td><td>Même format d'erreur sur toute l'API.</td></tr>
-</tbody>
-</table>
-
-<h3>Validation rapide de fin</h3>
+<h3>Routes à implémenter</h3>
 <ol>
-<li>Toutes les routes utiles répondent en JSON.</li>
-<li>Les codes HTTP sont cohérents (<code>200</code>, <code>400</code>, <code>404</code>).</li>
-<li>Aucune réponse HTML/texte brute n'est renvoyée par erreur.</li>
-<li>Une modification de <code>src/server.js</code> déclenche bien le redémarrage en watch.</li>
+<li><code>POST /players</code></li>
+<li><code>GET /enigmes</code> (sans <code>answer</code>)</li>
+<li><code>POST /enigmes/:id/answer</code></li>
+<li><code>GET /leaderboard</code></li>
+<li><code>GET /health</code></li>
 </ol>
 
-<h2>8. Défis du jour</h2>
-<table>
-<thead><tr><th>Défi</th><th>Objectif</th><th>Points</th></tr></thead>
-<tbody>
-<tr><td>Défi 1</td><td>Route Hello JSON propre</td><td>3</td></tr>
-<tr><td>Défi 2</td><td>Route dynamique avec paramètre</td><td>4</td></tr>
-<tr><td>Défi 3</td><td>Gestion d'erreur homogène</td><td>6</td></tr>
-<tr><td>Défi bonus</td><td>Ajouter des métadonnées (timestamp)</td><td>2</td></tr>
-</tbody>
-</table>
-<p><strong>Système de rang</strong> : Bronze (0-6), Argent (7-11), Or (12+).</p>
-
-<h2>9. Mini-projet de fin de Jour 1</h2>
-<p>Livrer une API minimale dans la sandbox serveur avec ce scénario :</p>
-<ol>
-<li>Servir <code>GET /</code> en JSON.</li>
-<li>Servir <code>GET /health</code> en JSON.</li>
-<li>Servir <code>GET /hello/:name</code> en JSON.</li>
-<li>Retourner du JSON sur route inexistante.</li>
-</ol>
-<p><strong>Critères de réussite</strong></p>
+<h3>Règles métier</h3>
 <ul>
-<li>Toutes les routes répondent avec le bon statut HTTP.</li>
-<li>Le format JSON reste cohérent partout.</li>
-<li>Le code est lisible et modulaire à l'échelle du jour 1.</li>
-<li>Le serveur redémarre correctement après modification.</li>
+<li>Une énigme validée donne de l'XP au joueur.</li>
+<li>Une même énigme ne doit pas redonner de l'XP au même joueur.</li>
+<li>Le classement est trié par XP décroissant.</li>
+<li>Les données doivent rester persistées après redémarrage du serveur.</li>
 </ul>
 
-<h2>10. Checklist de fin de journée</h2>
+<h3>Critères de réussite</h3>
+<ul>
+<li>Les 5 routes répondent en JSON avec des statuts HTTP cohérents.</li>
+<li>Aucune route ne dépend d'une commande terminal applicative.</li>
+<li>Le dossier <code>data/</code> contient l'état du jeu (joueurs, énigmes, tentatives).</li>
+</ul>
+
+<h2>6. Checklist de fin de journée</h2>
 <div class="check">
 <p>Vérifier avant de passer au Jour 2 :</p>
 <ul>
@@ -303,7 +224,7 @@ console.log("Fin sync");
 </ul>
 </div>
 
-<h2>11. Glossaire</h2>
+<h2>7. Glossaire</h2>
 <table>
 <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
 <tbody>
