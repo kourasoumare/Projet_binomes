@@ -213,7 +213,38 @@ console.log("Fin sync");
 <li>Le dossier <code>data/</code> contient l'état du jeu (joueurs, énigmes, tentatives).</li>
 </ul>
 
-<h2>6. Checklist de fin de journée</h2>
+<h2>6. Exercices complémentaires (algo + asynchrone)</h2>
+<p>Ces 3 exercices prolongent le TP Campus Quest et ciblent les points clés d'asynchronisme en Node.js.</p>
+
+<h3>Exercice 6.1 - Pourquoi <code>fs/promises</code> est asynchrone ?</h3>
+<p><strong>Objectif</strong> : observer que le serveur reste réactif pendant une lecture de fichier.</p>
+<ol>
+<li>Créer <code>GET /demo-async</code> qui lit un JSON via <code>fs/promises</code>.</li>
+<li>Logger les étapes : début de route, lecture fichier, fin de route.</li>
+<li>Conserver <code>GET /health</code> et l'appeler pendant <code>/demo-async</code>.</li>
+</ol>
+<p><strong>Résultat attendu</strong> : la route <code>/health</code> répond immédiatement, même pendant la lecture I/O.</p>
+
+<h3>Exercice 6.2 - <code>async/await</code> pour lire / écrire les données</h3>
+<p><strong>Objectif</strong> : structurer la persistance JSON de Campus Quest avec des fonctions dédiées.</p>
+<ol>
+<li>Créer <code>loadPlayers()</code> avec <code>await readFile(...)</code> puis <code>JSON.parse</code>.</li>
+<li>Créer <code>savePlayers(players)</code> avec <code>await writeFile(...)</code>.</li>
+<li>Utiliser ces fonctions dans <code>POST /players</code> et <code>GET /leaderboard</code>.</li>
+</ol>
+<p><strong>Résultat attendu</strong> : les joueurs restent persistés dans <code>data/players.json</code> après redémarrage.</p>
+
+<h3>Exercice 6.3 - <code>try/catch</code> pour gérer les erreurs HTTP</h3>
+<p><strong>Objectif</strong> : transformer les erreurs techniques en réponses API claires.</p>
+<ol>
+<li>Encadrer <code>POST /enigmes/:id/answer</code> avec <code>try/catch</code>.</li>
+<li>Renvoyer <code>400</code> si <code>playerId</code> ou <code>answer</code> est manquant.</li>
+<li>Renvoyer <code>404</code> si joueur ou énigme n'existe pas.</li>
+<li>Renvoyer <code>500</code> pour les erreurs imprévues (lecture/écriture, JSON invalide).</li>
+</ol>
+<p><strong>Résultat attendu</strong> : format homogène des erreurs API, par exemple <code>{ "error": "..." }</code>.</p>
+
+<h2>7. Checklist de fin de journée</h2>
 <div class="check">
 <p>Vérifier pour passer au Jour 2 :</p>
 <ul>
@@ -224,7 +255,7 @@ console.log("Fin sync");
 </ul>
 </div>
 
-<h2>7. Glossaire</h2>
+<h2>8. Glossaire</h2>
 <table>
 <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
 <tbody>

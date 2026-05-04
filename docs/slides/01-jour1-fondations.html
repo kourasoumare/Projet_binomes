@@ -139,7 +139,7 @@ console.log(avg.toFixed(2));</code></pre>
       </div>
       <div class="card" style="margin-top:12px">
         <p><strong>Dans <code>sandbox-server</code></strong>, chaque action passe par une route API (URL + méthode HTTP + JSON).</p>
-        <p class="small">Exemple : <code>POST /enigmes/:id/reponse</code> valide une tentative de réponse.</p>
+        <p class="small">Exemple : <code>POST /enigmes/:id/answer</code> valide une tentative de réponse.</p>
       </div>
       <p class="small">Livrable J1 : une API JSON exécutable de bout en bout autour du jeu Campus Quest.</p>
     </section>
@@ -149,9 +149,9 @@ console.log(avg.toFixed(2));</code></pre>
       <div class="card">
         <p><code>POST /players</code> avec <code>{ "name": "Alice" }</code></p>
         <ol>
-          <li><code>server.js</code> reçoit la requête HTTP</li>
-          <li><code>game-service.js</code> applique les règles</li>
-          <li><code>store.js</code> lit/écrit les JSON</li>
+          <li><code>server.correction.js</code> reçoit la requête HTTP</li>
+          <li>Valider la règle métier (réponse correcte ? déjà résolue ?)</li>
+          <li><code>json-store.js</code> lit/écrit les JSON</li>
           <li>Le serveur renvoie une réponse JSON</li>
         </ol>
       </div>
@@ -162,7 +162,7 @@ console.log(avg.toFixed(2));</code></pre>
       <pre><code class="language-js">app.post("/players", (req, res) => {
   const { name } = req.body;
   if (!name) return res.status(400).json({ error: "name is required" });
-  res.status(201).json({ id: "p1", name, xp: 0 });
+  res.status(201).json({ id: "p1", name, xp: 0, solvedEnigmes: [] });
 });</code></pre>
       <p class="small">Idée clé : lire les données de la requête, appliquer la validation, renvoyer un JSON.</p>
       <p class="small">Même logique métier, déclenchée par HTTP avec des réponses JSON cohérentes.</p>
@@ -184,23 +184,42 @@ async function saveJson(path, data) {
     </section>
 
     <section>
-      <h2>Exercices progressifs</h2>
-      <div class="grid">
-        <div class="card"><strong>Niveau 1</strong><p class="small">Store JSON + helpers</p></div>
-        <div class="card"><strong>Niveau 2</strong><p class="small">Logique métier XP/quêtes</p></div>
+      <h2>Exercice unique J1 (sans CLI)</h2>
+      <div class="card">
+        <p>Implémenter Campus Quest en REST API avec persistance dans <code>data/</code> :</p>
+        <ol>
+          <li><code>POST /players</code></li>
+          <li><code>GET /enigmes</code> (sans <code>answer</code>)</li>
+          <li><code>POST /enigmes/:id/answer</code></li>
+          <li><code>GET /leaderboard</code></li>
+          <li><code>GET /health</code></li>
+        </ol>
       </div>
-      <div class="card" style="margin-top:12px"><strong>Niveau 3</strong><p class="small">Robustesse API + messages d'erreur</p></div>
     </section>
 
     <section>
-      <h2>Mini-projet J1</h2>
+      <h2>Validation + XP</h2>
       <div class="card">
         <ol>
-          <li>Créer un joueur</li>
-          <li>Attribuer 2 quêtes</li>
-          <li>Valider une quête</li>
-          <li>Afficher profil + leaderboard</li>
+          <li>Comparer la réponse envoyée avec la bonne réponse de l'énigme</li>
+          <li>Si correct + pas déjà résolue : ajouter <code>enigme.xp</code> au joueur</li>
+          <li>Tracer chaque tentative dans <code>data/attempts.json</code></li>
+          <li>Ne jamais redonner de XP sur une même énigme pour le même joueur</li>
         </ol>
+      </div>
+      <p class="small">Comparer en mode tolérant : <code>trim()</code> + <code>toLowerCase()</code>.</p>
+    </section>
+
+    <section>
+      <h2>Support correction enseignant</h2>
+      <div class="card">
+        <p>Correction prête pour guider la séance :</p>
+        <ul>
+          <li><code>src/correction/server.correction.js</code></li>
+          <li><code>src/correction/json-store.js</code></li>
+          <li><code>src/correction/README.md</code></li>
+          <li><code>data/correction/*.json</code></li>
+        </ul>
       </div>
     </section>
   </div>

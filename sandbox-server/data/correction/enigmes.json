@@ -1,0 +1,16 @@
+[
+  {
+    "id": "e1",
+    "title": "Je parle sans bouche",
+    "statement": "Je parle sans bouche et j'entends sans oreilles. Qui suis-je ?",
+    "answer": "echo",
+    "xp": 20
+  },
+  {
+    "id": "e2",
+    "title": "Le secret",
+    "statement": "Plus j'ai de gardiens, moins je suis en sécurité. Qui suis-je ?",
+    "answer": "secret",
+    "xp": 40
+  }
+]
