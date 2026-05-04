@@ -171,6 +171,9 @@ console.log("D");
 <tr><td>Macrotask</td><td><code>setTimeout</code>, <code>setInterval</code>, callbacks I/O, <code>setImmediate</code></td><td>Après les microtasks</td></tr>
 </tbody>
 </table>
+<div class="schema-wrap">
+  <img src="assets/event-loop-tour-boucle.svg" alt="Schéma microtasks et macrotasks">
+</div>
 <p><strong>Note Node.js</strong> : <code>process.nextTick(...)</code> est encore plus prioritaire que les microtasks Promise.</p>
 
 <h3>Piège classique : bloquer la boucle</h3>
