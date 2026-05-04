@@ -3,6 +3,7 @@
 ## Lancement
 
 ```bash
+docker compose down -v       # stoppe et supprime les conteneurs existants
 docker compose up -d --build
 ```
 
