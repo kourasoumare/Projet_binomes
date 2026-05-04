@@ -93,36 +93,103 @@ docker run hello-world</code></pre>
       <table>
         <thead><tr><th>Config</th><th>But</th><th>Dossier</th></tr></thead>
         <tbody>
-          <tr><td>sandbox-node</td><td>Scripts Node.js CLI</td><td>docs/nodejs-niveau-1/sandbox-node</td></tr>
-          <tr><td>sandbox-server</td><td>API Express + routes HTTP</td><td>docs/nodejs-niveau-1/sandbox-server</td></tr>
+          <tr><td>sandbox-node</td><td>Scripts Node.js CLI</td><td>sandbox-node</td></tr>
+          <tr><td>sandbox-server</td><td>API Express + routes HTTP</td><td>sandbox-server</td></tr>
         </tbody>
       </table>
     </section>
 
     <section>
-      <h2>sandbox-node : démarrer et exécuter</h2>
+      <h2>Code réel : sandbox-node</h2>
+      <pre><code># sandbox-node/Dockerfile
+FROM node:24-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --omit=dev
+COPY . .
+CMD ["sh", "-c", "tail -f /dev/null"]</code></pre>
+      <pre><code># sandbox-node/docker-compose.yml
+services:
+  node:
+    build: .
+    container_name: sandbox-node-cli
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "tail -f /dev/null"
+    stdin_open: true
+    tty: true</code></pre>
+    </section>
+
+    <section>
+      <h2>Pourquoi ce conteneur reste actif ?</h2>
+      <div class="card">
+        <ul>
+          <li>Un conteneur vit tant que son process principal (PID 1) tourne.</li>
+          <li><code>tail -f /dev/null</code> ne se termine pas: le conteneur reste disponible.</li>
+          <li>But: lancer ensuite des commandes CLI via <code>docker compose exec node ...</code>.</li>
+          <li><code>stdin_open + tty</code>: confort terminal pour les interactions.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>sandbox-node : commandes expliquées</h2>
       <pre><code># depuis la racine du projet
-cd docs/nodejs-niveau-1/sandbox-node
+cd sandbox-node
 docker compose up -d --build
 
 docker compose exec node npm start -- help
 docker compose exec node npm start -- list-quests
 docker compose exec node npm start -- create-player Alice</code></pre>
+      <div class="card">
+        <p class="small"><code>up -d --build</code> : build l'image puis démarre le service en arrière-plan.</p>
+        <p class="small"><code>exec node ...</code> : exécute une commande dans le conteneur déjà actif.</p>
+      </div>
     </section>
 
     <section>
-      <h2>sandbox-server : démarrer et tester</h2>
+      <h2>Code réel : sandbox-server</h2>
+      <pre><code># sandbox-server/Dockerfile
+FROM node:24-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --omit=dev
+COPY . .
+ENV NODE_ENV=production
+EXPOSE 3000
+CMD ["npm", "start"]</code></pre>
+      <pre><code># sandbox-server/docker-compose.yml
+services:
+  app:
+    build: .
+    container_name: nodejs-docker-sandbox-app
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    restart: unless-stopped</code></pre>
+    </section>
+
+    <section>
+      <h2>sandbox-server : commandes expliquées</h2>
       <pre><code># depuis la racine du projet
-cd docs/nodejs-niveau-1/sandbox-server
+cd sandbox-server
 docker compose up -d --build
 
 curl http://localhost:3000/
 curl http://localhost:3000/health
 curl http://localhost:3000/version</code></pre>
+      <div class="card">
+        <p class="small"><code>ports: 3000:3000</code> : expose l'API du conteneur vers votre machine.</p>
+        <p class="small"><code>curl</code> : vérifie rapidement que l'API répond.</p>
+      </div>
     </section>
 
     <section>
-      <h2>État et debug</h2>
+      <h2>État et debug (à quoi ça sert)</h2>
       <pre><code>docker compose ps
 docker compose config
 docker compose logs -f
@@ -130,6 +197,10 @@ docker compose logs -f app
 docker compose logs -f node
 docker compose exec app sh
 docker compose exec node sh</code></pre>
+      <div class="card">
+        <p class="small"><code>ps</code> : état des services ; <code>config</code> : YAML final interprété.</p>
+        <p class="small"><code>logs -f</code> : suivre les erreurs en temps réel ; <code>exec ... sh</code> : entrer dans le conteneur.</p>
+      </div>
     </section>
 
     <section>
