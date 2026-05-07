@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
   {
     "id": "d1",
     "titre": "Géographie",
@@ -24,3 +25,28 @@
     "points": 40
   }
 ]
+=======
+    {
+      "id": "e1",
+      "title": "Je parle sans bouche",
+      "statement": "Je parle sans bouche et j'entends sans oreilles. Qui suis-je ?",
+      "answer": "echo",
+      "xp": 20
+    },
+    {
+      "id": "e2",
+      "title": "Le secret",
+      "statement": "Plus j'ai de gardiens, moins je suis en sécurité. Qui suis-je ?",
+      "answer": "secret",
+      "xp": 40
+    },
+    {
+      "id": "e3",
+      "title": "L'ombre",
+      "statement": "Je te suis le jour, je te quitte la nuit. Qui suis-je ?",
+      "answer": "ombre",
+      "xp": 30
+    }
+  ]
+  
+>>>>>>> origin/Mane

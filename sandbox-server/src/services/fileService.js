@@ -1,15 +1,14 @@
 import { readFile, writeFile } from "node:fs/promises";
 
-import { playersPath, defisPath } from "../config/app.js";
+import { playersPath, defisPath, participantsPath } from "../config/app.js";
 
 export const readPlayers = async (encode = "utf-8") => {
     const data = await readFile(playersPath, encode);
     return JSON.parse(data);
 };
-
-// single responsability 
-export const writePlayers = async (players, encode = "utf-8") => {
-    await writeFile(playersPath, JSON.stringify(players, null, 2), encode);
+//Ecriture du fichier participants.json
+export const writeParticipants = async (players, encode = "utf-8") => {
+    await writeFile(participantsPath, JSON.stringify(players, null, 2), encode);
 };
 
 
