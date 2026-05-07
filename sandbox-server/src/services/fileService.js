@@ -6,10 +6,16 @@ export const readPlayers = async (encode = "utf-8") => {
     const data = await readFile(playersPath, encode);
     return JSON.parse(data);
 };
-//Ecriture du fichier participants.json
+//Ecriture du fichier participants.json (Mahamane)
 export const writeParticipants = async (players, encode = "utf-8") => {
     await writeFile(participantsPath, JSON.stringify(players, null, 2), encode);
 };
+//lire participants (Mahamane)
+export const readParticipants = async (encode = "utf-8") => {
+  const data = await readFile(participantsPath, encode);
+  return JSON.parse(data);
+};
+
 
 
 //export const writeAttempts = async (attempts, encode = "utf-8") => {
@@ -25,3 +31,4 @@ export const readDefis = async (encode = "utf-8") => {
 export const writeDefis = async (defis, encode = "utf-8") => {
   await writeFile(defisPath, JSON.stringify(defis, null, 2), encode);
 };
+
