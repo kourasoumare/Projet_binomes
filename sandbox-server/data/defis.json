@@ -1,0 +1,26 @@
+[
+  {
+    "id": "d1",
+    "titre": "Géographie",
+    "question": "Quelle est la capitale de la France ?",
+    "reponse": "Paris",
+    "difficulte": "facile",
+    "points": 10
+  },
+  {
+    "id": "d2",
+    "titre": "Mathématiques",
+    "question": "Combien font 12 x 12 ?",
+    "reponse": "144",
+    "difficulte": "moyen",
+    "points": 20
+  },
+  {
+    "id": "d3",
+    "titre": "Histoire",
+    "question": "En quelle année a eu lieu la Révolution française ?",
+    "reponse": "1789",
+    "difficulte": "difficile",
+    "points": 40
+  }
+]
