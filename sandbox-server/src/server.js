@@ -1,22 +1,26 @@
-// point d'entrée de l'application 
-
 import express from "express";
-import { createPlayerController, playersController } from "./controllers/playerController.js";
-import { answerEnigmeController, enigmesController } from "./controllers/enigmeController.js";
+
+// Import des controllers participants (Mahamane)
+import { createParticipantsController, getClassementController } from "./controllers/participantController.js";
+
+// Import des controllers défis (Koura)
+import { defisController, createDefiController, validerDefiController } from "./controllers/defisControllers.js";
 
 const app = express();
 
+// Middleware pour parser le JSON
 app.use(express.json());
 
-// endpoint connecter à son controleur
-app.get("/players", playersController);
+// Routes participants (Mahamane)
+app.post("/participants", createParticipantsController);
+app.get("/participants/ranking", getClassementController);
 
-// POST /players
-app.post("/players", createPlayerController);
-app.get("/enigmes", enigmesController);
-app.post("/enigmes/:id/answer", answerEnigmeController);
-app.post("/enigmes/:id/answers", answerEnigmeController);
+// Routes défis (Koura)
+app.get("/defis", defisController);
+app.post("/defis", createDefiController);
+app.post("/defis/:id/valider", validerDefiController);
 
+// Démarrage du serveur
 app.listen(3000, () => {
   console.log(`Server listening on 3000`);
 });
