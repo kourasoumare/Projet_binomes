@@ -1,4 +1,4 @@
-import { answerEnigme, getEnigmes } from "../services/enigmeService.js";
+import { answerEnigme, getEnigmes } from "../services/defiService.js";
 
 // son role au controleur, c'est d'etre un chef d'orchreste == un role unique 
 export const enigmesController = async (_req, res) => {
