@@ -1,13 +1,11 @@
 import { readFile, writeFile } from "node:fs/promises";
-
 import { participantsPath } from "../config/app.js";
-
+//Lecture du fichier participants.json
 export const readParticipants = async (encode = "utf-8") => {
     const data = await readFile(participantsPath, encode);
     return JSON.parse(data);
 };
-
-// single responsability 
+//Ecriture du fichier participants.json
 export const writeParticipants = async (players, encode = "utf-8") => {
     await writeFile(participantsPath, JSON.stringify(players, null, 2), encode);
 };
